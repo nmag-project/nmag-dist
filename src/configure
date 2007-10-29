@@ -1,0 +1,56 @@
+#!/bin/bash
+
+CFG=config.status
+TMPC=/tmp/nsim_test_tmp.c
+TMPDL=/tmp/libnsim_test_tmp.so
+
+LN_S="ln -s"
+
+cat << EOF > $TMPC
+int my_func(void) {
+  return 0;
+}
+EOF
+
+ARCHOPTS="macosx:-fPIC -dynamiclib,linux:-shared -fPIC"
+IFS=','
+for ARCHOPT in $ARCHOPTS; do
+  IFS=' '
+  OPTS=$(echo $ARCHOPT | cut -d ':' -f 2)
+  ARCH=$(echo $ARCHOPT | cut -d ':' -f 1)
+  SHLIB_OPTS=$OPTS
+  gcc $OPTS $TMPC -o $TMPDL &>/dev/null
+  if [ $? == 0 ]; then
+    break
+  fi
+done
+rm -f $TMPC $TMPDL
+
+case $ARCH in
+  linux) GCC_FLAVOUR=gcc; SHLIB_SUFFIX=.so ;;
+  macosx) GCC_FLAVOUR=osx-gcc; SHLIB_SUFFIX=.dylib ;;
+esac
+
+cat << EOF >> $CFG
+ARCH=$ARCH
+LN_S="$LN_S"
+SHLIB_OPTS='$SHLIB_OPTS'
+GCC_FLAVOUR=$GCC_FLAVOUR
+SHLIB_SUFFIX=$SHLIB_SUFFIX
+EOF
+
+echo "You seems to be running $ARCH"
+echo "Command used to create symbolic links: $LN_S"
+echo "gcc options used to generate shared libraries: $SHLIB_OPTS"
+echo "Suffix for shared libraries: $SHLIB_SUFFIX"
+echo "mpich configuration for shared libraries: --enablesharedlib=$GCC_FLAVOUR"
+
+MALLOC_INCS='malloc/malloc.h malloc.h'
+for MALLOC_INC in $MALLOC_INCS; do
+  if [ -e /usr/include/$MALLOC_INC ]; then
+    break
+  fi
+done
+
+echo "MALLOC_INC=$MALLOC_INC" >> $CFG
+echo "I will include 'malloc.h' in parmetis using: #include <$MALLOC_INC>"

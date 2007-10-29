@@ -1,0 +1,18 @@
+Install instructions are provided in the INSTALL file (txt),
+INSTALL.pdf (pdf) and INSTALL.html (html) in the toplevel directory.
+
+Once the software is installed, the documentation for nmag can be found at
+
+./nmag0.1/doc/nmag/manual/html/manual.html
+
+and all the example files mentioned in the manual are available at 
+
+./nmag0.1/doc/nmag/manual/example_*
+
+
+There is also a pdf version of the manual available in 
+
+./nmag0.1/doc/nmag/manual/manual.pdf
+
+
+

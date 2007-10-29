@@ -1,0 +1,18 @@
+Things to do:
+- Now python is compiled after petsc. But petsc configuration requires
+  python! This means that we are assuming that the user has his own
+  version of python installed system-wise. It is better to compile
+  python at the beginning, and use it to configure petsc!
+[DONE, mf, Friday 4th May 2007]
+
+- set PYTHONHOME (to be empty, or set ourselves): on Hans' machine
+  this was set and was interfering with the building process!
+
+- add symlinks for sundials. The current version does not create
+  libsundials*.so: it creates libsundials*
+
+- parmetis path in some Makefile (mpi_petsc)
+
+- decide between the -shared (gcc linux) and -bundle (gcc Mac OS) flags
+
+- on Mac OS we need to link against lapack and blas explicitely

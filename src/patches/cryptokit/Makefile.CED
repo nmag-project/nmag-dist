@@ -1,0 +1,9 @@
+# Matteo Franchin, Oct 2006
+# Installation of cryptokit via ocamlfind.
+
+install:
+	ocamlfind install cryptokit META cryptokit.mli cryptokit.cmi \
+	 cryptokit.cma cryptokit.cmxa cryptokit.a libcryptokit.a dllcryptokit.so
+
+uninstall:
+	ocamlfind remove cryptokit

@@ -1,0 +1,8 @@
+# Just to install cryptokit with ocamlfind (Matteo Franchin, 12 june 2006)
+name="cryptokit"
+version="1.2"
+description="Cryptographic primitives"
+requires="num unix"
+archive(byte)="cryptokit.cma"
+archive(native)="cryptokit.cmxa"
+directory="+cryptokit"
