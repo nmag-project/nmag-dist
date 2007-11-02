@@ -84,11 +84,11 @@ Installation
 
 Untar the archive::
 
- $ tar xvzf nmag-0.1.tar.gz
+ $ tar xvzf nmag-0.1-all.tar.gz
 
-enter the directory just created (which should be named "nmag")::
+enter the directory just created (which should be named "nmag-0.1")::
 
- $ cd nmag
+ $ cd nmag-0.1
 
 and run ``make``::
 
@@ -97,7 +97,7 @@ and run ``make``::
 This command will build ``nsim`` and a number of other required
 packages.
 
-All the software is installed inside the directory ``nmag``,
+All the software is installed inside the directory ``nmag-0.1``,
 so root privileges are not required (see `Setting up the environment`_).
 
 If all goes well, nsim can be started once the 'make' command has completed::
@@ -125,7 +125,7 @@ to adjust the shell's $PATH environment variable appropriately.
 For the widespread ``bash`` shell, this can be done with these
 commands:
 
-  $ cd nmag # enter the main directory
+  $ cd nmag-0.1 # enter the main directory
   $ export PATH=`pwd`/nsim/bin:$PATH
 
 After these adjustments, ``nsim`` can be started with the command
@@ -139,7 +139,7 @@ command file ``.bashrc``.
 Executing the command ``make hints`` in the ``nsim`` build directory
 will give information on how to adjust ``.bashrc``::
 
-  $ cd nmag 
+  $ cd nmag-0.1 
   $ make hints
 
   To be able to launch nsim more easily, append the following line
@@ -160,7 +160,7 @@ After successful compilation, the following commands can be used to
 execute a simple test script that runs a basic simulation
 example. This should bring up most unresolved problems::
 
-  $ cd nmag
+  $ cd nmag-0.1
   $ cd nsim/tests/regression/nmag/bigbar
   $ make check
 
@@ -186,12 +186,12 @@ the bare source tree. (The name ``uninstall`` may seem strange at
 first, as this way of building ``nsim`` does not install anything in
 system directories such as ``/usr/lib``, but this is justified as we
 recursively call ``make uninstall`` on all the packages ``nsim``
-depends on which will be installed into a ``nmag`` subdirectory.)
+depends on which will be installed into a ``nmag-0.1`` subdirectory.)
 
 To completely clean nmag from the system, it is sufficient to simply
-remove the ``nmag`` directory::
+remove the ``nmag-0.1`` directory::
 
-  $ rm -rf nmag
+  $ rm -rf nmag-0.1
 
 The important point to remember is that the ``nmag``/``nsim``
 installation lives entirely within this directory and does not touch
@@ -261,7 +261,7 @@ FAQ (Frequently Asked Questions)
     This is a short-cut to recompile just the python interpreter
     (i.e. the readline-dependent part):
 
-     $ cd nmag
+     $ cd nmag-0.1
      $ rm -rf .deps_python_* python/
      $ make .deps_python_install
      $ make --dry-run | grep touch | sh
@@ -278,7 +278,7 @@ FAQ (Frequently Asked Questions)
     If for some reasons you want to do so, you can issue the following
     commands::
 
-     $ cd nmag
+     $ cd nmag-0.1
      $ make uninstall
      $ make 
 
@@ -294,13 +294,13 @@ FAQ (Frequently Asked Questions)
     can be removed after the compilation has finished. The command
     is:
 
-     $ cd nmag
+     $ cd nmag-0.1
      $ make clean
 
    This will free about 0.5 GB.
 
 :Q: I noticed that the installation of ``nsim`` produced many executables
-   under the directory ``.../nmag/bin``. I tried to run some of
+   under the directory ``.../nmag-0.1/bin``. I tried to run some of
    these, but they do not work properly.
    Is there something wrong with the installation?
 
@@ -309,14 +309,14 @@ FAQ (Frequently Asked Questions)
    etc.) therefore the operating system needs to be instructed where
    to find executables, libraries, etc.  
 
-   ``nsim`` does that by calling the shell script ``.../nmag/exports.bash``.
+   ``nsim`` does that by calling the shell script ``.../nmag-0.1/exports.bash``.
 
    If (for some strange reason) one wants to execute the binary
-   files under ``.../nmag/bin``, these definitions have to be 
+   files under ``.../nmag-0.1/bin``, these definitions have to be 
    pre-loaded into the shell. So, to start the Objective Caml
    interpreter, one could use these commands:
 
-     $ cd nmag
+     $ cd nmag-0.1
      $ . exports.bash
      $ ./bin/ocaml
  
@@ -329,7 +329,7 @@ FAQ (Frequently Asked Questions)
    and you are extending the ``nsim`` OCaml core, then this is what
    you need::
 
-     $ cd nmag
+     $ cd nmag-0.1
      $ . exports.bash
      $ cd nsim # enter the nsim source directory
      $ make
@@ -352,11 +352,11 @@ FAQ (Frequently Asked Questions)
     actual ``libz``. 
 
     A workaround is to copy the right ``libz`` (a file like
-    ``/usr/lib/libz.so.*``) to the ``nmag/lib`` directory. It
+    ``/usr/lib/libz.so.*``) to the ``nmag-0.1/lib`` directory. It
     seems prudent to also copy the symbolic links to this
     library, for example with::
 
-     $ cp /usr/lib/libz.so.* nmag/lib
+     $ cp /usr/lib/libz.so.* nmag-0.1/lib
 
 
 Known issues
