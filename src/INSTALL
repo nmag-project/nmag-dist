@@ -43,7 +43,7 @@ its development files. If the directory ``/usr/include/readline`` (or
 ``/usr/local/include/readline``) exists, readline development headers
 should be available. Otherwise, it is likely that the readline library
 is installed without its development files.  On Debian-based Linux
-distributions such as Ubuntu, one can use issue the command 
+distributions such as Ubuntu, one can issue the command 
 ``aptitude install libreadline-dev`` 
 (resp. ``apt-get install libreadline-dev``) to install the 
 missing package.
@@ -123,7 +123,7 @@ these utilities. While it is possible to start ``nsim`` as
 to adjust the shell's $PATH environment variable appropriately.
 
 For the widespread ``bash`` shell, this can be done with these
-commands:
+commands::
 
   $ cd nmag-0.1 # enter the main directory
   $ export PATH=`pwd`/nsim/bin:$PATH
@@ -259,7 +259,7 @@ FAQ (Frequently Asked Questions)
     and then recompile from scratch.
 
     This is a short-cut to recompile just the python interpreter
-    (i.e. the readline-dependent part):
+    (i.e. the readline-dependent part)::
 
      $ cd nmag-0.1
      $ rm -rf .deps_python_* python/
