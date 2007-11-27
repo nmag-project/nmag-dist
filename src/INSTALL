@@ -43,9 +43,9 @@ its development files. If the directory ``/usr/include/readline`` (or
 ``/usr/local/include/readline``) exists, readline development headers
 should be available. Otherwise, it is likely that the readline library
 is installed without its development files.  On Debian-based Linux
-distributions such as Ubuntu, one can issue the command 
-``aptitude install libreadline-dev`` 
-(resp. ``apt-get install libreadline-dev``) to install the 
+distributions such as Ubuntu, one can issue the command
+``aptitude install libreadline-dev``
+(resp. ``apt-get install libreadline-dev``) to install the
 missing package.
 
 Troubleshooting issues such as ending up with a ``nsim_i`` executable
@@ -53,7 +53,7 @@ which does not show a coloured prompt and misses features such as tab
 autocompletion are discussed in the section FAQ_.
 
 The GNU compiler collection, as well as ``m4``, ``tar``, ``gzip``, ``bzip2``
-should already be present if the machine already has been used for 
+should already be present if the machine already has been used for
 some software development.
 
 These are widespread developer tools and --- as for ``gawk`` --- the
@@ -75,7 +75,7 @@ packages to be installed:
 Mac OS X
 ++++++++
 
-On Mac OS X, fink_ can be used to install the additional tools needed by 
+On Mac OS X, fink_ can be used to install the additional tools needed by
 ``nsim`` (such as ``gawk``, for example).
 
 
@@ -108,7 +108,7 @@ If this produces a prompt::
 
   >>>
 
-then ``nsim`` was compiled successfully from source. 
+then ``nsim`` was compiled successfully from source.
 (The interpreter can be left, as usual, by pressing Control+d,
 which will send an "End of File" command on its input stream.)
 
@@ -117,8 +117,8 @@ Setting up the environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 In order to run ``nsim`` (and related programs such as ``ncol``,
-``nmagpp``, etc.), the shell has to know the path where to find 
-these utilities. While it is possible to start ``nsim`` as 
+``nmagpp``, etc.), the shell has to know the path where to find
+these utilities. While it is possible to start ``nsim`` as
 ``./nsim/bin/nsim``, it is much more convenient in the long run
 to adjust the shell's $PATH environment variable appropriately.
 
@@ -139,7 +139,7 @@ command file ``.bashrc``.
 Executing the command ``make hints`` in the ``nsim`` build directory
 will give information on how to adjust ``.bashrc``::
 
-  $ cd nmag-0.1 
+  $ cd nmag-0.1
   $ make hints
 
   To be able to launch nsim more easily, append the following line
@@ -231,26 +231,26 @@ FAQ (Frequently Asked Questions)
     providing micromagnetism.
 
     The major effort is to install ``nsim``. Once this is done
-    ``nmag`` will ''just work''. It is for this reason, that there are 
+    ``nmag`` will ''just work''. It is for this reason, that there are
     many references to ``nsim`` in this document.
 
 :Q: What machines/operating systems does nsim compile on?
 
 :A: This installation tool was designed to work on Linux platforms.
-    It does not (yet) work on MS Windows, but it has been successfully 
+    It does not (yet) work on MS Windows, but it has been successfully
     used to compile ``nsim`` on Mac (both PowerPC and Intel architectures)
     and may work under other flavours of unix OSes.
 
-    See `Platforms`_ for a list of systems on which 
+    See `Platforms`_ for a list of systems on which
     a successful compilation has been reported.
 
 :Q: I have just installed ``nsim``. ``nsim_i`` works, but the output
    is not coloured and the auto-completition  is not avalable.
    What is happening?
 
-:A: Probably ``nsim``, was compiled on a system where the 
+:A: Probably ``nsim``, was compiled on a system where the
     readline library (or its developer files) was not installed.
-    ``nsim_i`` needs this library for features such as command 
+    ``nsim_i`` needs this library for features such as command
     auto-completition and coloured text.
 
     One way to resolve this is to install the libreadline developer
@@ -280,7 +280,7 @@ FAQ (Frequently Asked Questions)
 
      $ cd nmag-0.1
      $ make uninstall
-     $ make 
+     $ make
 
    Be careful! ``make uninstall`` will remove all the files produced
    by a previous compilation of ``nsim``. So, all the programs and
@@ -292,7 +292,7 @@ FAQ (Frequently Asked Questions)
 
 :A: Yes, some directories which were necessary for the compilation
     can be removed after the compilation has finished. The command
-    is:
+    is::
 
      $ cd nmag-0.1
      $ make clean
@@ -307,21 +307,21 @@ FAQ (Frequently Asked Questions)
 :A: No, probably everything is alright.  The software is not installed
    in the traditional unix directories (``/usr/bin``, ``/usr/lib``,
    etc.) therefore the operating system needs to be instructed where
-   to find executables, libraries, etc.  
+   to find executables, libraries, etc.
 
    ``nsim`` does that by calling the shell script ``.../nmag-0.1/exports.bash``.
 
    If (for some strange reason) one wants to execute the binary
-   files under ``.../nmag-0.1/bin``, these definitions have to be 
+   files under ``.../nmag-0.1/bin``, these definitions have to be
    pre-loaded into the shell. So, to start the Objective Caml
-   interpreter, one could use these commands:
+   interpreter, one could use these commands::
 
      $ cd nmag-0.1
      $ . exports.bash
      $ ./bin/ocaml
- 
+
    This may not be necessary, but is strongly suggested.
-   (Note that this is specific to the basb shell!)
+   (Note that this is specific to the bash shell!)
 
 :Q: I want to recompile only ``nsim``, how can I do this?
 
@@ -337,10 +337,10 @@ FAQ (Frequently Asked Questions)
    For other info and hints write a mail to the `nsim developers`_,
    who are happy to help you!
 
-:Q: I get this error message when trying to run 
-    an example::      
+:Q: I get this error message when trying to run
+    an example::
 
-      HDF5-DIAG: Error detected in HDF5 library version: 1.6.5 thread 0.  
+      HDF5-DIAG: Error detected in HDF5 library version: 1.6.5 thread 0.
       Back trace follows.
 
 :A: This error has been seen on a (misconfigured) linux system and is
@@ -349,7 +349,7 @@ FAQ (Frequently Asked Questions)
     content. In particular, it seems that Matlab provides it's own
     ``libz`` library (which has nothing to do with the standard
     ``libz``) and this library was earlier in the search path than the
-    actual ``libz``. 
+    actual ``libz``.
 
     A workaround is to copy the right ``libz`` (a file like
     ``/usr/lib/libz.so.*``) to the ``nmag-0.1/lib`` directory. It
