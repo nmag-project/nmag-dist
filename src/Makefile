@@ -11,6 +11,9 @@
 # See the file README and INSTALL for more info.
 # Matteo Franchin, 16 Mar 2007
 
+# Where to find the newest nsim core tarball
+NSIMCORETARBALL=http://nmag.soton.ac.uk/nmag/0.1/download/nmag-0.1-core.tar.gz
+
 # List of packages we are using at the moment
 ATLAS_PKG=pkgs/atlas3.6.0.tar.gz
 LAPACK_PKG=pkgs/lapack.tgz
@@ -61,7 +64,7 @@ DIST_FILES=README INSTALL TODO nsimconfigure Makefile bin etc include info lib m
  share patches nsim pkgs
 
 .PHONY: all uninstall clean ocaml dist python_tools create_bin_links
-.PHONY: export_paths hints
+.PHONY: export_paths hints update _internal_update_part2
 
 all: .deps_nsim_install python_tools create_bin_links
 
@@ -493,4 +496,12 @@ hints:
 	@echo -n "(for BASH users this file is .bashrc and can be found "
 	@echo "on your home directory ~/.bashrc):"
 	@echo export PATH='"'`pwd`/nsim/bin:'$$PATH"'
-	@echo 
+	@echo
+
+update:
+	@echo "Will start updating nmag in 5 seconds"
+	@sleep 5
+	@echo "Downloading the nmag tarball..."
+	wget $(NSIMCORETARBALL)
+	(unlink Makefile && cd .. && tar xzvf nmag-0.1/nmag-0.1-core.tar.gz)
+
