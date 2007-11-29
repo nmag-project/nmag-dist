@@ -504,6 +504,6 @@ update:
 	@echo "Downloading the nmag tarball..."
 	wget -c $(NSIMCORETARBALL)
 	ln -s . nmag-0.1
-	(unlink Makefile && tar xzvf nmag-0.1/nmag-0.1-core.tar.gz)
-	rm nmag-0.1
+	(unlink Makefile && tar xzvf nmag-0.1-core.tar.gz)
+	rm -f nmag-0.1 nmag-0.1-core.tar.gz
 
