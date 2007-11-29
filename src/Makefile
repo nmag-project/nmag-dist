@@ -502,6 +502,8 @@ update:
 	@echo "Will start updating nmag in 5 seconds"
 	@sleep 5
 	@echo "Downloading the nmag tarball..."
-	wget $(NSIMCORETARBALL)
-	(unlink Makefile && cd .. && tar xzvf nmag-0.1/nmag-0.1-core.tar.gz)
+	wget -c $(NSIMCORETARBALL)
+	ln -s . nmag-0.1
+	(unlink Makefile && tar xzvf nmag-0.1/nmag-0.1-core.tar.gz)
+	rm nmag-0.1
 
