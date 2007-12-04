@@ -220,6 +220,11 @@ on the following systems:
 
    - Pentium M machine running 32bit Ubuntu Linux (Gutsy);
 
+   - AthlonXP 2200+ running Ubuntu 7.04 (Feisty), and Ubuntu 7.10
+     (Gutsy), both 32 bit
+
+   - Athlon64 X2 4200+ Dual Core running Ubuntu 7.10 64bit
+
 Please let us know (by email to `nsim developers`_) if you have
 compiled it on other system configurations.
 
