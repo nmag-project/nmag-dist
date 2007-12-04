@@ -156,9 +156,13 @@ command to set environment variables is ``setenv`` rather than
 Testing the software
 --------------------
 
-After successful compilation, the following commands can be used to
-execute a simple test script that runs a basic simulation
-example. This should bring up most unresolved problems::
+After successful compilation, we suggest to run a small test to ensure
+``nsim`` is working properly.
+`gnuplot <http://www.gnuplot.info>`__ is required for producing the final
+graph with the results. ``gnuplot`` is a plotting program;
+many distributions provide an easy way to install it.
+The script runs a basic simulation example, which should bring up
+most unresolved problems::
 
   $ cd nmag-0.1
   $ cd nsim/tests/regression/nmag/bigbar
