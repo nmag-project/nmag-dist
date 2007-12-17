@@ -239,153 +239,171 @@ Click on the following link to download ``nsim``/``nmag``:
 FAQ (Frequently Asked Questions)
 --------------------------------
 
-:Q: What is all this talk about ``nsim`` --- Isn't the package named ``nmag``?
+.. contents::
+  :local:
 
-:A: ``nsim`` is a general purpose multiphysics simulation
-    package. ``nmag`` is a particular application based on it,
-    providing micromagnetism.
 
-    The major effort is to install ``nsim``. Once this is done
-    ``nmag`` will ''just work''. It is for this reason, that there are
-    many references to ``nsim`` in this document.
+What is all this talk about ``nsim`` --- Isn't the package named ``nmag``?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Q: What machines/operating systems does nsim compile on?
+``nsim`` is a general purpose multiphysics simulation
+package. ``nmag`` is a particular application based on it,
+providing micromagnetism.
 
-:A: This installation tool was designed to work on Linux platforms.
-    It does not (yet) work on MS Windows, but it has been successfully
-    used to compile ``nsim`` on Mac (both PowerPC and Intel architectures)
-    and may work under other flavours of unix OSes.
+The major effort is to install ``nsim``. Once this is done
+``nmag`` will ''just work''. It is for this reason, that there are
+many references to ``nsim`` in this document.
 
-    See `Platforms`_ for a list of systems on which
-    a successful compilation has been reported.
+What machines/operating systems does nsim compile on?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Q: I have just installed ``nsim``. ``nsim_i`` works, but the output
-   is not coloured and the auto-completition  is not avalable.
-   What is happening?
+This installation tool was designed to work on Linux platforms.  It
+does not (yet) work on MS Windows, but it has been successfully
+used to compile ``nsim`` on Mac (both PowerPC and Intel
+architectures) and may work under other flavours of unix OSes.
 
-:A: Probably ``nsim``, was compiled on a system where the
-    readline library (or its developer files) was not installed.
-    ``nsim_i`` needs this library for features such as command
-    auto-completition and coloured text.
+See `Platforms`_ for a list of systems on which
+a successful compilation has been reported.
 
-    One way to resolve this is to install the libreadline developer
-    files (which should in particular provide ``readline.h``),
-    as explained in the section `Installation requirements`_
-    and then recompile from scratch.
+Why do I not have autocompletion and colours in ``nsim_i``?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    This is a short-cut to recompile just the python interpreter
-    (i.e. the readline-dependent part)::
+You have just installed ``nsim``.  And ``nsim_i`` works, but the
+``nsim_i`` output is not coloured and the auto-completition is not
+available either. 
 
-      $ cd nmag-0.1
-      $ rm -rf .deps_python_* python/
-      $ make .deps_python_install
-      $ make --dry-run | grep touch | sh
+Probably ``nsim``, was compiled on a system where the readline library
+(or its developer files) was not installed.  ``nsim_i`` needs this
+library for features such as command auto-completition and coloured
+text.
 
-    The last line is necessary to update the dependency files:
-    normally rebuilding ``python`` would cause all the other libraries
-    (mpich, petsc, etc.) to be rebuilt as well, the last line
-    is a trick to avoid this!
+One way to resolve this is to install the libreadline developer
+files (which should in particular provide ``readline.h``),
+as explained in the section `Installation requirements`_
+and then recompile from scratch.
 
-:Q: How can I recompile the ``nsim`` package, *together with all the
-    required libraries*?
+This is a short-cut to recompile just the python interpreter
+(i.e. the readline-dependent part)::
 
-:A: Normally there should be no need to recompile the ``nsim`` package.
-    If for some reasons you want to do so, you can issue the following
-    commands::
+  $ cd nmag-0.1
+  $ rm -rf .deps_python_* python/
+  $ make .deps_python_install
+  $ make --dry-run | grep touch | sh
 
-      $ cd nmag-0.1
-      $ make uninstall
-      $ make
+The last line is necessary to update the dependency files:
+normally rebuilding ``python`` would cause all the other libraries
+(mpich, petsc, etc.) to be rebuilt as well, the last line
+is a trick to avoid this!
 
-    Be careful! ``make uninstall`` will remove all the files produced
-    by a previous compilation of ``nsim``. So, all the programs and
-    libraries required by ``nsim`` will be rebuilt by these commands.
+How can I recompile the ``nsim`` package, *together* with all the required libraries*?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:Q: I compiled ``nsim`` from source and it occupied more than 1 GB
-    of space on my hard-drive. Are there unnecessary files that
-    I can remove to get back some free space?
+Normally there should be no need to recompile the ``nsim`` package.
+If for some reasons you want to do so, you can issue the following
+commands::
 
-:A: Yes, some directories which were necessary for the compilation
-    can be removed after the compilation has finished. The command
-    is::
+  $ cd nmag-0.1
+  $ make uninstall
+  $ make
+
+Note that ``make uninstall`` will remove all the files produced by a
+previous compilation of ``nsim``. So, all the programs and libraries
+required by ``nsim`` will be rebuilt by these commands (this can take
+some time).
+
+Can I free some (unused) disk space after compiling nsim from source?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You have compiled ``nsim`` from source and it occupies more than 1 GB
+of space on your hard-drive. Some directories which were necessary for
+the compilation can be removed after the compilation has finished. The
+command is::
 
       $ cd nmag-0.1
       $ make clean
 
-    This will free about 0.5 GB.
+This will free about 0.5 GB.
 
-:Q: I noticed that the installation of ``nsim`` produced many executables
-    under the directory ``.../nmag-0.1/bin``. I tried to run some of
-    these, but they do not work properly.
-    Is there something wrong with the installation?
+Binary files in nmag-0.1/bin not working
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:A: No, probably everything is alright.  The software is not installed
-    in the traditional unix directories (``/usr/bin``, ``/usr/lib``,
-    etc.) therefore the operating system needs to be instructed where
-    to find executables, libraries, etc.
+The installation of ``nsim`` produces a number of executables in the
+``nmag-0.1/bin`` directory. When you try to run some of these, they do
+not necessarily work properly. Do you need to be concerned that there
+is something wrong with the installation?
 
-    ``nsim`` does that by calling the shell script ``.../nmag-0.1/exports.bash``.
+No, probably everything is alright.  The software is not installed
+in the traditional unix directories (``/usr/bin``, ``/usr/lib``,
+etc.) therefore the operating system needs to be instructed where
+to find executables, libraries, etc.
 
-    If (for some strange reason) one wants to execute the binary
-    files under ``.../nmag-0.1/bin``, these definitions have to be
-    pre-loaded into the shell. So, to start the Objective Caml
-    interpreter, one could use these commands::
+``nsim`` does that by calling the shell script
+``nmag-0.1/exports.bash``.
 
-      $ cd nmag-0.1
-      $ . exports.bash
-      $ ./bin/ocaml
+If (for some strange reason) you want to execute the binary files
+under ``.../nmag-0.1/bin``, these definitions have to be pre-loaded
+into the shell. For example, to start the Objective Caml interpreter
+that is compiled as part of the ``nsim`` installation from source, you
+could use::
 
-    This may not be necessary, but is strongly suggested.
-    (Note that this is specific to the bash shell!)
+  $ cd nmag-0.1
+  $ . exports.bash
+  $ ./bin/ocaml
 
-:Q: I want to recompile only ``nsim``, how can I do this?
+This may noxt be necessary, but is strongly suggested.
+(Note that this is specific to the bash shell.)
 
-:A: This should not be necessary for normal users. If you are a developer
-    and you are extending the ``nsim`` OCaml core, then this is what
-    you need::
+I want to recompile only ``nsim``, how can I do this?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      $ cd nmag-0.1
-      $ . exports.bash
-      $ cd nsim # enter the nsim source directory
-      $ make
+This should not be necessary for normal users. If you are a developer
+and you are extending the ``nsim`` OCaml core, then this is what you
+need::
 
-    These commands will only compile ``nsim``, without reconfiguring it.
-    If you want to reconfigure and recompile ``nsim`` use the following
-    commands::
+  $ cd nmag-0.1
+  $ . exports.bash
+  $ cd nsim # enter the nsim source directory
+  $ make
 
-      $ cd nmag-0.1
-      $ rm nsim/config/configuration.inc
-      $ make
-      
-    Note that the ``make`` command is used from the main ``nmag-0.1``
-    directory, not ``nmag-0.1/nsim``.
-    These commands will configure ``nsim`` by running
-    ``nmag-0.1/config/configure.py`` and passing to it the proper
-    command line options to specify the paths of the required libraries.
+These commands will only compile ``nsim``, without reconfiguring it.
+If you want to reconfigure and recompile ``nsim`` use the following
+commands::
 
-    For other info and hints write a mail to the `nsim developers`_,
-    who are happy to help you!
+  $ cd nmag-0.1
+  $ rm nsim/config/configuration.inc
+  $ make
+  
+Note that the ``make`` command is used from the main ``nmag-0.1``
+directory, not ``nmag-0.1/nsim``.  These commands will configure
+``nsim`` by running ``nmag-0.1/config/configure.py`` and passing to it
+the proper command line options to specify the paths of the required
+libraries.
 
-:Q: I get this error message when trying to run
-    an example::
+For other info and hints write a mail to the `nsim developers`_,
+who are happy to help you!
 
-      HDF5-DIAG: Error detected in HDF5 library version: 1.6.5 thread 0.
-      Back trace follows.
+I get an HDF5-DIAG error message when trying to run an example
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-:A: This error has been seen on a (misconfigured) linux system and is
-    caused by the hdf5 library believing to link to ``libz`` but
-    actually linking to a library that has the same name but different
-    content. In particular, it seems that Matlab provides it's own
-    ``libz`` library (which has nothing to do with the standard
-    ``libz``) and this library was earlier in the search path than the
-    actual ``libz``.
+The error message reads::
 
-    A workaround is to copy the right ``libz`` (a file like
-    ``/usr/lib/libz.so.*``) to the ``nmag-0.1/lib`` directory. It
-    seems prudent to also copy the symbolic links to this
-    library, for example with::
+  HDF5-DIAG: Error detected in HDF5 library version: 1.6.5 thread 0.
+  Back trace follows.
 
-      $ cp /usr/lib/libz.so.* nmag-0.1/lib
+This error has been seen on a (misconfigured) linux system and is
+caused by the hdf5 library believing to link to ``libz`` but
+actually linking to a library that has the same name but different
+content. In particular, it seems that Matlab provides it's own
+``libz`` library (which has nothing to do with the standard
+``libz``) and this library was earlier in the search path than the
+actual ``libz``.
+
+A workaround is to copy the right ``libz`` (a file like
+``/usr/lib/libz.so.*``) to the ``nmag-0.1/lib`` directory. It
+seems prudent to also copy the symbolic links to this
+library, for example with::
+
+  $ cp /usr/lib/libz.so.* nmag-0.1/lib
 
 
 Known issues
