@@ -23,7 +23,7 @@ CRYPTOKIT_PKG=pkgs/cryptokit-1.2.tar.gz
 QHULL_PKG=pkgs/qhull-2003.1.tar.gz
 GSL_PKG=pkgs/gsl-1.8.tar.gz
 OCAMLGSL_PKG=pkgs/ocamlgsl-0.4.0.tar.gz
-MPICH2_PKG=pkgs/mpich2-1.0.4p1.tar.gz
+MPICH_PKG=pkgs/mpich_1.2.7.tar.gz
 PETSC_PKG=pkgs/petsc-2.3.1.tar.gz
 PARMETIS_PKG=pkgs/ParMetis-3.1.tar.gz
 PYTHON_PKG=pkgs/Python-2.4.3.tar.bz2
@@ -36,15 +36,20 @@ SUNDIALS_PKG=pkgs/sundials_2.2.0.tar.gz
 HDF5_PKG=pkgs/hdf5_1.6.5.tar.gz
 HLIB_PKG=pkgs/HLib-1.3p16.tar.gz
 
+# Need to specify this to avoid mpich1 to auto detect it
+# (when this happens, mpich1 also tries to execute rsh,
+# and a not nice password prompt appears during configure)
+RSH=/usr/bin/rsh
+
 LOCAL_PATH=${PWD}
 LOCAL_BIN=$(LOCAL_PATH)/bin
 LOCAL_LIB=$(LOCAL_PATH)/lib
 LOCAL_INCLUDE=$(LOCAL_PATH)/include
 PYTHON=$(LOCAL_BIN)/python
 FINDLIB_DESTDIR=$(LOCAL_PATH)/lib/ocaml
-MPICH2_PATH=$(LOCAL_PATH)/lib/mpich2
-MPICH2_LIB_PATH=$(MPICH2_PATH)/lib
-MPICH2_BIN_PATH=$(MPICH2_PATH)/bin
+MPICH_PATH=$(LOCAL_PATH)/lib/mpich
+MPICH_LIB_PATH=$(MPICH_PATH)/lib/shared
+MPICH_BIN_PATH=$(MPICH_PATH)/bin
 PETSC_LIB_PATH=$(LOCAL_PATH)/lib/petsc
 PETSC_LIBRARY_PATH=$(PETSC_LIB_PATH)/my_arch
 PETSC_INCLUDE_PATH=$(PETSC_LIB_PATH)/include
@@ -69,10 +74,10 @@ DIST_FILES=README INSTALL TODO nsimconfigure Makefile bin etc include info lib m
 all: .deps_nsim_install python_tools create_bin_links
 
 $(EXPORT_PATHS):
-	export PATH=$(LOCAL_BIN):$(MPICH2_BIN_PATH):\$$PATH > $(EXPORT_PATHS)
+	export PATH=$(LOCAL_BIN):$(MPICH_BIN_PATH):\$$PATH > $(EXPORT_PATHS)
 	echo export PETSC_DIR=$(PETSC_LIB_PATH) >> $(EXPORT_PATHS)
 	echo export PETSC_ARCH= >> $(EXPORT_PATHS)
-	echo export LD_LIBRARY_PATH=$(LOCAL_LIB):$(MPICH2_LIB_PATH):\$$LD_LIBRARY_PATH >> $(EXPORT_PATHS)
+	echo export LD_LIBRARY_PATH=$(LOCAL_LIB):$(MPICH_LIB_PATH):\$$LD_LIBRARY_PATH >> $(EXPORT_PATHS)
 
 config.status: nsimconfigure
 	sh nsimconfigure
@@ -203,44 +208,44 @@ config.status: nsimconfigure
 	 cd ocamlgsl && make install-findlib && cd ..
 	touch .deps_ocamlgsl_install
 
-.deps_mpich2_untar:
-	tar xzvf $(MPICH2_PKG)
-	mv mpich2* mpich2
-	touch .deps_mpich2_untar
+.deps_mpich_untar:
+	tar xzvf $(MPICH_PKG)
+	mv mpich* mpich
+	touch .deps_mpich_untar
 
-.deps_mpich2_configure: .deps_mpich2_untar config.status
-	mkdir -p $(MPICH2_PATH)
+.deps_mpich_configure: .deps_mpich_untar config.status
+	mkdir -p $(MPICH_PATH)
 	. ./config.status && \
-	cd mpich2 && \
-	 ./configure --prefix=$(MPICH2_PATH) -disable-f77 -disable-f90 \
-	  --enable-sharedlibs=$$GCC_FLAVOUR && \
+	cd mpich && \
+	 ./configure --prefix=$(MPICH_PATH) -rsh=$(RSH) \
+	  -disable-f77 -disable-f90 --enable-sharedlibs && \
 	 cd ..
-	touch .deps_mpich2_configure
+	touch .deps_mpich_configure
 
-.deps_mpich2_build: .deps_mpich2_configure
-	cd mpich2 && make && cd ..
-	touch .deps_mpich2_build
+.deps_mpich_build: .deps_mpich_configure
+	cd mpich && make && cd ..
+	touch .deps_mpich_build
 
-.deps_mpich2_install: .deps_mpich2_build
-	cd mpich2 && make install && cd ..
-	touch .deps_mpich2_install
+.deps_mpich_install: .deps_mpich_build
+	cd mpich && make install && cd ..
+	touch .deps_mpich_install
 
 .deps_petsc_untar: .deps_python_install
 	tar xzvf $(PETSC_PKG)
 	mv petsc* $(PETSC_LIB_PATH)
 	touch .deps_petsc_untar
 
-.deps_petsc_configure: .deps_petsc_untar .deps_mpich2_install $(EXPORT_PATHS)
+.deps_petsc_configure: .deps_petsc_untar .deps_mpich_install $(EXPORT_PATHS)
 	. $(EXPORT_PATHS) && \
 	 cd $(PETSC_LIB_PATH) && \
 	 $(PYTHON) ./config/configure.py --with-shared \
-	  --with-mpi-dir=$(MPICH2_PATH) $(PETSC_MORE_CONFIG_OPTS) && \
+	  --with-mpi-dir=$(MPICH_PATH) $(PETSC_MORE_CONFIG_OPTS) && \
 	 cd ..
 	touch .deps_petsc_configure
 
 .deps_petsc_build: .deps_petsc_configure
 	cd $(PETSC_LIB_PATH) && \
-	 export PATH=$(MPICH2_BIN_PATH):$$PATH && \
+	 export PATH=$(MPICH_BIN_PATH):$$PATH && \
 	 export PETSC_DIR=$(PETSC_LIB_PATH) && \
 	 export PETSC_ARCH= && \
 	 make all && \
@@ -283,7 +288,7 @@ set_petsc_arch.sh: .deps_petsc_build
 
 .deps_parmetis_build: .deps_parmetis_patch
 	cd parmetis && \
-	 export PATH=$(MPICH2_BIN_PATH):$$PATH && \
+	 export PATH=$(MPICH_BIN_PATH):$$PATH && \
 	 export PETSC_DIR=$(PETSC_LIB_PATH) && \
 	 export PETSC_ARCH= && \
 	 make default shared && cd ..
@@ -311,15 +316,15 @@ set_petsc_arch.sh: .deps_petsc_build
 	cd python && make install && cd ..
 	touch .deps_python_install
 
-.deps_sundials_untar: .deps_mpich2_install
+.deps_sundials_untar: .deps_mpich_install
 	tar xzvf $(SUNDIALS_PKG)
 	[ -d sundials ] || mv sundials* sundials
 	touch .deps_sundials_untar
 
 .deps_sundials_configure: .deps_sundials_untar
 	cd sundials && \
-	 export PATH=$(MPICH2_BIN_PATH):$$PATH && \
-	 ./configure --disable-f77 --enable-shared --prefix=$(LOCAL_PATH) --with-mpi-root=$(MPICH2_PATH) && \
+	 export PATH=$(MPICH_BIN_PATH):$$PATH && \
+	 ./configure --disable-f77 --enable-shared --prefix=$(LOCAL_PATH) --with-mpi-root=$(MPICH_PATH) && \
 	 cd ..
 	touch .deps_sundials_configure
 
@@ -421,11 +426,11 @@ set_petsc_arch.sh: .deps_petsc_build
 	touch .deps_hlib_install
 
 exports.bash: set_petsc_arch.sh
-	echo export PATH=$(LOCAL_BIN):$(MPICH2_BIN_PATH):\$$PATH > exports.bash
+	echo export PATH=$(LOCAL_BIN):$(MPICH_BIN_PATH):\$$PATH > exports.bash
 	echo export PETSC_DIR=$(PETSC_LIB_PATH) >> exports.bash
 	echo export PETSC_ARCH= >> exports.bash
 	. ./set_petsc_arch.sh && \
-	echo export LD_LIBRARY_PATH=$(LOCAL_PATH)/lib:$(PETSC_LIB_PATH)/lib/$${PETSC_ARCH}:$(MPICH2_LIB_PATH):\$$LD_LIBRARY_PATH >> exports.bash
+	echo export LD_LIBRARY_PATH=$(LOCAL_PATH)/lib:$(PETSC_LIB_PATH)/lib/$${PETSC_ARCH}:$(MPICH_LIB_PATH):\$$LD_LIBRARY_PATH >> exports.bash
 	cp exports.bash nsim/config/exports.sh
 
 nsim/config/exports.sh: exports.bash
@@ -438,16 +443,16 @@ nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh $(EXPO
 	  --includedir=$(LOCAL_INCLUDE) \
 	  --full-lib-name \
 	  --petsc-libdir=$(PETSC_LIB_PATH)/lib/$$PETSC_ARCH \
-	  --mpich-libdir=$(LOCAL_LIB)/mpich2/lib \
-	  --mpich-includedir=$(LOCAL_LIB)/mpich2/include \
-	  --pmpich-libdir=$(LOCAL_LIB)/mpich2/lib \
+	  --mpich-libdir=$(LOCAL_LIB)/mpich/lib \
+	  --mpich-includedir=$(LOCAL_LIB)/mpich/include \
+	  --pmpich-libdir=$(LOCAL_LIB)/mpich/lib \
 	  --petsc-includedir=$(LOCAL_LIB)/petsc/include \
 	  --metis-includedir=$(LOCAL_PATH)/parmetis/METISLib && \
 	 cd ..
 
 .deps_nsim_install: .deps_ocaml_all .deps_cryptokit_install \
  .deps_qhull_install .deps_ocamlgsl_install \
- .deps_mpich2_install .deps_petsc_setup \
+ .deps_mpich_install .deps_petsc_setup \
  .deps_parmetis_install .deps_python_install \
  .deps_sundials_install \
  exports.bash nsim/config/exports.sh nsim/config/configuration.inc
@@ -476,7 +481,7 @@ uninstall: clean
 	 set_petsc_arch.sh exports.bash config.sh config.status
 
 clean:
-	rm -rf ocaml findlib cryptokit qhull gsl ocamlgsl mpich2 \
+	rm -rf ocaml findlib cryptokit qhull gsl ocamlgsl mpich \
 	       parmetis python sundials numpy numarray pyvtk \
 	       hdf5 atlas lapack ipython pytables
 	rm -f .deps_*
