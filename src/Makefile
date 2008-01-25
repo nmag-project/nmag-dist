@@ -443,9 +443,9 @@ nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh $(EXPO
 	  --includedir=$(LOCAL_INCLUDE) \
 	  --full-lib-name \
 	  --petsc-libdir=$(PETSC_LIB_PATH)/lib/$$PETSC_ARCH \
-	  --mpich-libdir=$(LOCAL_LIB)/mpich/lib \
-	  --mpich-includedir=$(LOCAL_LIB)/mpich/include \
-	  --pmpich-libdir=$(LOCAL_LIB)/mpich/lib \
+	  --mpich-libdir=$(MPICH_LIB_PATH) \
+	  --mpich-includedir=$(MPICH_PATH)/include \
+	  --pmpich-libdir=$(MPICH_LIB_PATH) \
 	  --petsc-includedir=$(LOCAL_LIB)/petsc/include \
 	  --metis-includedir=$(LOCAL_PATH)/parmetis/METISLib && \
 	 cd ..
