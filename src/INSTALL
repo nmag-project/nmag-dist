@@ -225,6 +225,10 @@ on the following systems:
 
    - Athlon64 X2 4200+ Dual Core running Ubuntu 7.10 64bit
 
+   - IBM x440 system (with 8x1.9Ghz Intel Xeon processors) running
+     Red Hat Enterprise Linux AS release 3 (Taroon Update 2)
+
+
 Please let us know (by email to `nsim developers`_) if you have
 compiled it on other system configurations.
 
