@@ -32,6 +32,7 @@ PYTHON_NUMPY_PKG=pkgs/numpy-1.0.1.tar.gz
 PYTHON_PYVTK_PKG=pkgs/PyVTK-0.latest.tar.gz
 PYTHON_NUMARRAY_PKG=pkgs/numarray-1.5.2.tar.gz
 PYTHON_PYTABLES_PKG=pkgs/pytables-1.4.tar.gz
+PYTHON_PY_PKG=pkgs/py-0.9.1.tar.gz
 SUNDIALS_PKG=pkgs/sundials_2.2.0.tar.gz
 HDF5_PKG=pkgs/hdf5_1.6.5.tar.gz
 HLIB_PKG=pkgs/HLib-1.3p16.tar.gz
@@ -395,6 +396,18 @@ set_petsc_arch.sh: .deps_petsc_build
 	 cd ..
 	touch .deps_pytables_install
 
+.deps_py_untar: .deps_python_install 
+	tar xzvf $(PYTHON_PY_PKG)
+	mv py-* py
+	touch .deps_py_untar
+
+.deps_py_install: .deps_py_untar $(EXPORT_PATHS)
+	.  $(EXPORT_PATHS) && \
+	cd py && \
+	 $(PYTHON) setup.py install && \
+	 cd ..
+	touch .deps_py_install
+
 .deps_ipython_untar: .deps_python_install
 	tar xzvf $(IPYTHON_PKG)
 	rm -rf ipython && mv ipython-* ipython
@@ -454,7 +467,7 @@ nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh $(EXPO
 	. ./exports.bash && cd nsim && ${MAKE} && cd ..
 	touch .deps_nsim_install
 
-python_tools: .deps_numpy_install .deps_pyvtk_install .deps_pytables_install .deps_ipython_install
+python_tools: .deps_numpy_install .deps_pyvtk_install .deps_pytables_install .deps_ipython_install .deps_py_install
 
 create_bin_links:
 	@SRC_BINS=`ls nsim/bin`; \
@@ -478,7 +491,7 @@ uninstall: clean
 clean:
 	rm -rf ocaml findlib cryptokit qhull gsl ocamlgsl mpich2 \
 	       parmetis python sundials numpy numarray pyvtk \
-	       hdf5 atlas lapack ipython pytables
+	       hdf5 atlas lapack ipython pytables py
 	rm -f .deps_*
 
 dist:
