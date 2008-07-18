@@ -520,3 +520,5 @@ update:
 	(unlink Makefile && tar xzvf nmag-0.1-core.tar.gz)
 	rm -f nmag-0.1 nmag-0.1-core.tar.gz
 
+check: all
+	cd nsim; make check
