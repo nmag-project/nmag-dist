@@ -78,17 +78,22 @@ Mac OS X
 On Mac OS X, fink_ can be used to install the additional tools needed by
 ``nsim`` (such as ``gawk``, for example).
 
-
 Installation
 ------------
 
 Untar the archive::
 
- $ tar xvzf nmag-0.1-all.tar.gz
+  $ tar xvzf nmag-0.1-all.tar.gz
 
-enter the directory just created (which should be named "nmag-0.1")::
+At this point you should know that, once the package has been compiled,
+you won't be able to move the nmag-0.1 directory to another location.
+Doing so would make the package unusable, since paths are hard-coded
+inside the executables.
+Therefore be sure to unpack the package into an appropriate directory.
+Enter the directory just created by the tar command (which should be
+named "nmag-0.1")::
 
- $ cd nmag-0.1
+  $ cd nmag-0.1
 
 and run ``make``::
 
