@@ -232,7 +232,11 @@ config.status: nsimconfigure
 	mv petsc* $(PETSC_LIB_PATH)
 	touch .deps_petsc_untar
 
-.deps_petsc_configure: .deps_petsc_untar .deps_mpich2_install $(EXPORT_PATHS)
+.deps_petsc_patch: .deps_petsc_untar
+	sh patches/petsc/patches.sh $(PETSC_LIB_PATH)
+	touch .deps_petsc_patch
+
+.deps_petsc_configure: .deps_petsc_patch .deps_mpich2_install $(EXPORT_PATHS)
 	. $(EXPORT_PATHS) && \
 	 cd $(PETSC_LIB_PATH) && \
 	 $(PYTHON) ./config/configure.py --with-shared \
