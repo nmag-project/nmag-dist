@@ -68,7 +68,7 @@ DIST_FILES=README INSTALL TODO nsimconfigure Makefile bin etc include info lib m
 .PHONY: all uninstall clean ocaml dist python_tools create_bin_links
 .PHONY: export_paths hints update _internal_update_part2
 
-all: .deps_nsim_install python_tools create_bin_links
+all: .deps_nsim_install python_tools create_bin_links hints
 
 $(EXPORT_PATHS):
 	export PATH=$(LOCAL_BIN):$(MPICH2_BIN_PATH):\$$PATH > $(EXPORT_PATHS)
@@ -509,11 +509,16 @@ dist:
 	  --exclude 'bin/*' --exclude 'include/*' $$PRFX_FILES && cd $$CD
 
 hints:
-	@echo -n "HINT: To be able to launch nsim more easily, append the "
-	@echo -n "following line to the end of your shell configuration file "
-	@echo -n "(for BASH users this file is .bashrc and can be found "
+	@echo
+	@echo "HINT: To be able to launch nsim more easily, append the "
+	@echo "following line to the end of your shell configuration file "
+	@echo "(for BASH users this file is .bashrc and can be found "
 	@echo "on your home directory ~/.bashrc):"
 	@echo export PATH='"'`pwd`/nsim/bin:'$$PATH"'
+	@echo
+	@echo "The nmag directory `pwd` should not be moved to another"
+	@echo "location. Doing so will make the package unusable, since"
+	@echo "absolute paths are hard-coded inside the nmag executables."
 	@echo
 
 update:
