@@ -36,7 +36,8 @@ The packages which are more likely to be missing are ``gawk`` and
 
 ``gawk`` (GNU awk) is a very common program. Most operating system
 distributions provide means to fetch and install a ``gawk`` package,
-which often already comes pre-installed.
+which often already comes pre-installed. (We need gawk to compile one
+of the libraries [Petsc] that we depend on.)
 
 ``readline`` is commonly installed on linux systems, but often without
 its development files. If the directory ``/usr/include/readline`` (or
