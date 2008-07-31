@@ -162,28 +162,66 @@ command to set environment variables is ``setenv`` rather than
 Testing the software
 --------------------
 
-After successful compilation, we suggest to run a small test to ensure
-``nsim`` is working properly.
-`gnuplot <http://www.gnuplot.info>`__ is required for producing the final
-graph with the results. ``gnuplot`` is a plotting program;
-many distributions provide an easy way to install it.
-The script runs a basic simulation example, which should bring up
-most unresolved problems::
+After successful completion, we recommend to run a suite of unit and
+regression tests. If these pass (i.e. they do not fail), then
+everything seems to work.
+
+The test can be run by calling:
 
   $ cd nmag-0.1
-  $ cd nsim/tests/regression/nmag/bigbar
-  $ make check
+  # make check
 
-The simulation should take 5-10 minutes, depending on the machine's
-hardware. In the end, it will produce a graph that can be viewed with
-the command::
+This should take less than one minute to complete. If the output finishes with ::
 
-  $ gv results/results.eps
+  ======== tests finished: k passed, l skipped in XX.XX seconds ==========
 
-This graph shows the time evolution of the three components of the
-mean magnetization for a Permalloy bar of size 30 nm x 30 nm x 100
-nm. There should be good agreement between the ``nsim`` data and those
-produced using ``OOMMF`` and ``Magpar`` for the same problem.
+(where k and l are integers), then all seems to be well. Congratulations.
+
+
+The l tests that have been skipped, take more computation time. To
+test them as well, one can use::
+
+  $ cd nmag-0.1
+  # make checkall
+
+
+If, after completion of either of these checks, the last line reads::
+
+  ======== tests finished: k passed, m failed, l skipped in XX.XX seconds ========
+
+then m tests have failed. You will also get further debug output
+following this summary line. Your best bet is to get in contact with
+the nmag team.
+
+
+.. comment:
+  
+  
+  Testing the software
+  --------------------
+  
+  After successful compilation, we suggest to run a small test to ensure
+  ``nsim`` is working properly.
+  `gnuplot <http://www.gnuplot.info>`__ is required for producing the final
+  graph with the results. ``gnuplot`` is a plotting program;
+  many distributions provide an easy way to install it.
+  The script runs a basic simulation example, which should bring up
+  most unresolved problems::
+  
+    $ cd nmag-0.1
+    $ cd nsim/tests/regression/nmag/bigbar
+    $ make check
+  
+  The simulation should take 5-10 minutes, depending on the machine's
+  hardware. In the end, it will produce a graph that can be viewed with
+  the command::
+  
+    $ gv results/results.eps
+  
+  This graph shows the time evolution of the three components of the
+  mean magnetization for a Permalloy bar of size 30 nm x 30 nm x 100
+  nm. There should be good agreement between the ``nsim`` data and those
+  produced using ``OOMMF`` and ``Magpar`` for the same problem.
 
 
 Removing the software
