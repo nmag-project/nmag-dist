@@ -216,7 +216,9 @@ on the following systems:
 
    - IntelMac (=CoreDuo CPU in MacBook) Mac OS X (10.4) system;
 
-   - PowerPC Mac (MacMini, iMac) Mac OS X (10.4) system;
+   - PowerPC Mac (MacMini, iMac) Mac OS X Tiger (10.4) system;
+
+   - Some Mac (PowerPC or Intel), with Mac OS X Leopard (10.5) system;
 
    - AMD Athlon 64 (running in 32bit mode) with Debian Linux (Etch);
 
