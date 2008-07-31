@@ -532,3 +532,8 @@ update:
 
 check: all
 	cd nsim; make check
+
+checkall: all
+	cd nsim; make checkall
+
+
