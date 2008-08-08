@@ -472,5 +472,5 @@ This is the same procedure as explained in the section Installation_
 with just one more line to set the LDFLAGS variable.
 
 .. _fink: http://finkproject.org/
-.. _`nsim developers`: fangohr@soton.ac.uk
+.. _`nsim developers`: nmag@soton.ac.uk
 
