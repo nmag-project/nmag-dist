@@ -530,10 +530,12 @@ update:
 	(unlink Makefile && tar xzvf nmag-0.1-core.tar.gz)
 	rm -f nmag-0.1 nmag-0.1-core.tar.gz
 
+./nsim/bin/pytest_nsim:
+	make all
+
 check: ./nsim/bin/pytest_nsim
 	cd nsim; make check
 
 checkall: ./nsim/bin/pytest_nsim
 	cd nsim; make checkall
-
 
