@@ -6,12 +6,12 @@
 # Makefile. This is useful if you want to run nsim on a cluster
 # (and you have not the root password!).
 # Remember however that a lot of things will be installed
-# even if you already have installed them system-wise.
+# even if you already have installed them system-wide.
 # This usually takes 20-30 minutes on quite new machines.
 # See the file README and INSTALL for more info.
 # Matteo Franchin, 16 Mar 2007
 
-# Where to find the newest nsim core tarball
+# Where to find the newest nsim 0.1 core tarball
 NSIMCORETARBALL=http://nmag.soton.ac.uk/nmag/0.1/download/nmag-0.1-core.tar.gz
 
 # List of packages we are using at the moment
