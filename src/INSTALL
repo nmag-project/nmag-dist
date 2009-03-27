@@ -254,6 +254,8 @@ on the following systems:
 
    - IntelMac (=CoreDuo CPU in MacBook) Mac OS X (10.4) system;
 
+   - IntelMac (Intel Core 2 in iMac) Mac OS X (10.4.11) system;
+
    - PowerPC Mac (MacMini, iMac) Mac OS X Tiger (10.4) system;
 
    - MacBook Pro (Intel), Mac OS X Leopard (10.5) system;
@@ -274,6 +276,8 @@ on the following systems:
    - IBM x440 system (with 8x1.9Ghz Intel Xeon processors) running
      Red Hat Enterprise Linux AS release 3 (Taroon Update 2)
 
+   - Debian 32 and 64 bit with Pentium 4, E7200, and Q9300 processors 
+
 Platforms that needed a little help:
 
    - Aspire One Netbook running the (Fedora based) Linux Linpus Lite
@@ -281,6 +285,7 @@ Platforms that needed a little help:
      package on the Linpus is broken and stopped the installation. He
      downloaded the original diffutils from the GNU webpage, installed
      this. Afterwards, Nmag compile automatically from source (Dec 2008).
+
 
 
 Please let us know (by email to `nsim developers`_) if you have
@@ -320,8 +325,8 @@ does not (yet) work on MS Windows, but it has been successfully
 used to compile ``nsim`` on Mac (both PowerPC and Intel
 architectures) and may work under other flavours of unix OSes.
 
-See `Platforms`_ for a list of systems on which
-a successful compilation has been reported.
+See `Platforms that compile nmag from sourc`_ for a list of systems on
+which a successful compilation has been reported.
 
 Why do I not have autocompletion and colours in ``nsim_i``?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
