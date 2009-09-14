@@ -278,6 +278,8 @@ on the following systems:
 
    - Debian 32 and 64 bit with Pentium 4, E7200, and Q9300 processors 
 
+   - OpenSuSE 11.0, 64bit, Kernel 2.6.25.20
+
 Platforms that needed a little help:
 
    - Aspire One Netbook running the (Fedora based) Linux Linpus Lite
