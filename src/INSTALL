@@ -280,6 +280,8 @@ on the following systems:
 
    - AMD64 Athlon64 3200, OpenSuSE 11.0, 64bit, Kernel 2.6.25.20
 
+   - Dual Xeon quad core processors, 2.4 GHz, 24GB RAM, Red Hat Enterprise Linux Desktop 5.3
+
 Platforms that needed a little help:
 
    - Aspire One Netbook running the (Fedora based) Linux Linpus Lite
