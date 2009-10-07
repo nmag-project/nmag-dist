@@ -70,8 +70,8 @@ Debian
 A fresh installation on debian (etch) requires the following extra
 packages to be installed:
 
-``m4``, ``gawk``, ``zlib1g-dev``, ``g++``, ``refblas3``, ``refblas3-dev``,
-``lapack3``, ``lapack3-dev``, ``readline-common``, ``libreadline-dev``.
+``m4`` ``gawk`` ``zlib1g-dev`` ``g++`` ``refblas3`` ``refblas3-dev``
+``lapack3`` ``lapack3-dev`` ``readline-common`` ``libreadline-dev`` ``make``
 
 Mac OS X
 ++++++++
