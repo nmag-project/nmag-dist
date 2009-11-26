@@ -26,7 +26,7 @@ OCAMLGSL_PKG=pkgs/ocamlgsl-0.4.0.tar.gz
 MPICH2_PKG=pkgs/mpich2-1.0.4p1.tar.gz
 PETSC_PKG=pkgs/petsc-lite-2.3.3-p15.tar.gz
 PARMETIS_PKG=pkgs/ParMetis-3.1.tar.gz
-PYTHON_PKG=pkgs/Python-2.4.3.tar.bz2
+PYTHON_PKG=pkgs/Python-2.6.4.tar.bz2
 IPYTHON_PKG=pkgs/ipython-0.8.1.tar.gz
 PYTHON_NUMPY_PKG=pkgs/numpy-1.1.0.tar.gz
 #PYTHON_NUMPY_PKG=pkgs/numpy-1.0.1.tar.gz
@@ -34,8 +34,8 @@ PYTHON_PYVTK_PKG=pkgs/PyVTK-0.latest.tar.gz
 PYTHON_NUMARRAY_PKG=pkgs/numarray-1.5.2.tar.gz
 PYTHON_PYTABLES_PKG=pkgs/pytables-1.4.tar.gz
 PYTHON_PY_PKG=pkgs/py-0.9.1.tar.gz
-SUNDIALS_PKG=pkgs/sundials_2.2.0.tar.gz
-HDF5_PKG=pkgs/hdf5_1.6.5.tar.gz
+SUNDIALS_PKG=pkgs/sundials-2.3.0.tar.gz
+HDF5_PKG=pkgs/hdf5-1.6.10.tar.bz2
 HLIB_PKG=pkgs/HLib-1.3p16.tar.gz
 
 LOCAL_PATH=${PWD}
@@ -361,7 +361,7 @@ set_petsc_arch.sh: .deps_petsc_build
 	touch .deps_pyvtk_install
 
 .deps_hdf5_untar:: .deps_python_install
-	tar xzvf $(HDF5_PKG)
+	tar xjvf $(HDF5_PKG)
 	mv hdf5-* hdf5
 	touch .deps_hdf5_untar
 
