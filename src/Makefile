@@ -463,7 +463,7 @@ nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh $(EXPO
 	  --metis-includedir=$(LOCAL_PATH)/parmetis/METISLib && \
 	 cd ..
 
-.deps_nsim_install: .deps_ocaml_all .deps_cryptokit_install \
+.deps_nsim_install: .deps_ocaml_all \
  .deps_qhull_install .deps_ocamlgsl_install \
  .deps_mpich2_install .deps_petsc_setup \
  .deps_parmetis_install .deps_python_install \

@@ -7,7 +7,8 @@ LIB_PATH="$MAIN_PATH/lib"
 . $MAIN_PATH/config.status
 
 cd $LIB_PATH
-for LIBSUNDIALS in libsundials_*.0.0.0; do
-  RENAMED_LIBSUNDIALS=`basename $LIBSUNDIALS .0.0.0`$SHLIB_SUFFIX
+for LIBSUNDIALS in libsundials_*.?.?.?; do
+  RENAMED_LIBSUNDIALS=`echo $LIBSUNDIALS | cut -d . -f 1`$SHLIB_SUFFIX
   [ -f $LIBSUNDIALS -a ! -e $RENAMED_LIBSUNDIALS ] && $LN_S $LIBSUNDIALS $RENAMED_LIBSUNDIALS
 done
+
