@@ -52,9 +52,6 @@ PETSC_LIBRARY_PATH=$(PETSC_LIB_PATH)/my_arch
 PETSC_INCLUDE_PATH=$(PETSC_LIB_PATH)/include
 PETSC_VERSION=2.3.1
 PETSC_DEFINE=PETSC230
-PYTHON_INCLUDE_PATH=$(LOCAL_PATH)/include/python2.4
-PYTHON_LIBRARY_PATH=$(LOCAL_PATH)/lib/python2.4/config
-PYCAML_CLIBS=python2.4
 
 EXPORT_PATHS=./export_paths.sh
 
@@ -66,9 +63,30 @@ DIST_FILES=README INSTALL TODO nsimconfigure Makefile bin etc include info lib m
  share patches nsim pkgs
 
 .PHONY: all uninstall clean ocaml dist python_tools create_bin_links
-.PHONY: export_paths hints update _internal_update_part2
+.PHONY: export_paths hints update _internal_update_part2 hlib_check
 
-all: .deps_nsim_install python_tools create_bin_links hints
+all: hlib_check .deps_nsim_install python_tools create_bin_links hints
+
+hlib_check:
+	bash ./patches/hlib/hlib-untar.sh ./hlib-pkg
+	if [ -d hlib ]; then $(MAKE) .deps_hlib_install; fi
+
+.deps_hlib_patch:
+	cp nsim/hlib/hlibpatch.diff.gz hlib/ && \
+	  cd hlib && gunzip -c hlibpatch.diff.gz | patch -p1 && \
+	touch .deps_hlib_patch
+
+.deps_hlib_configure: .deps_hlib_patch
+	cd hlib && ./configure --prefix=$(LOCAL_PATH) && cd ..
+	touch .deps_hlib_configure
+
+.deps_hlib_build: .deps_hlib_configure
+	cd hlib && make && cd ..
+	touch .deps_hlib_build
+
+.deps_hlib_install: .deps_hlib_build
+	cd hlib && make install && cd ..
+	touch .deps_hlib_install
 
 $(EXPORT_PATHS):
 	export PATH=$(LOCAL_BIN):$(MPICH2_BIN_PATH):\$$PATH > $(EXPORT_PATHS)
@@ -422,22 +440,6 @@ set_petsc_arch.sh: .deps_petsc_build
 	. $(EXPORT_PATHS) && cd ipython && $(PYTHON) setup.py install && cd ..
 	touch .deps_ipython_install
 
-.deps_hlib_untar:
-	tar xzvf $(HLIB_PKG) && rm -rf hlib && mv HLib-* hlib
-	touch .deps_hlib_untar
-
-.deps_hlib_configure: .deps_hlib_untar
-	cd hlib && ./configure --prefix=$(LOCAL_PATH) && cd ..
-	touch .deps_hlib_configure
-
-.deps_hlib_build: .deps_hlib_configure
-	cd hlib && make && cd ..
-	touch .deps_hlib_build
-
-.deps_hlib_install: .deps_hlib_build
-	cd hlib && make install && cd ..
-	touch .deps_hlib_install
-
 exports.bash: set_petsc_arch.sh
 	echo export PATH=$(LOCAL_BIN):$(MPICH2_BIN_PATH):\$$PATH > exports.bash
 	echo export PETSC_DIR=$(PETSC_LIB_PATH) >> exports.bash
@@ -496,7 +498,7 @@ uninstall: clean
 clean:
 	rm -rf ocaml findlib cryptokit qhull gsl ocamlgsl mpich2 \
 	       parmetis python sundials numpy numarray pyvtk \
-	       hdf5 atlas lapack ipython pytables py
+	       hdf5 atlas lapack ipython pytables py hlib
 	rm -f .deps_*
 
 dist:
