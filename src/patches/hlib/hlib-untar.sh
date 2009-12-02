@@ -1,11 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
 HLIB_TARBALL_DIR="$1"
 CANDIDATES="$HLIB_TARBALL_DIR/*.tar.gz"
-SHOW_WELCOME=yes
+SHOW_WELCOME="yes"
+WARN_USER="no"
 for CANDIDATE in $CANDIDATES; do
   if [ ! -f $CANDIDATE ]; then
-    exit 0
+    exit 1 # this exit status means: 'do not try to configure/make HLib'
   fi
 
   if [ $SHOW_WELCOME == yes ]; then
@@ -19,13 +20,28 @@ for CANDIDATE in $CANDIDATES; do
   echo "I found $CANDIDATE"
   echo -n "Is this the HLib tarball you want to use? (yes/no) "
   read ANSWER
-  if [ x$ANSWER == xyes ]; then
+  if [ "x$ANSWER" == xyes -o "x$ANSWER" == xy ]; then
     tar xzvf $CANDIDATE
     rm -rf hlib
     mv HLib-* hlib
-    exit 0
+    exit 0 # this exit status means: 'OK, you can configure and make'
+  elif [ "x$ANSWER" != xno -a "x$ANSWER" != xn ]; then
+    echo "You typed \"$ANSWER\". You should enter either \"yes\" or \"no\"."
+    echo "Assuming \"no\"."
   fi
+
+  WARN_USER="yes"
 done
 
-exit 0
+if [ $WARN_USER == yes ]; then
+  echo
+  echo
+  echo "======================================================"
+  echo "HLIB SUPPORT IS NOT ENABLED!"
+  echo "======================================================"
+  echo "Press ENTER to continue or CTRL+C to stop here."
+  read
+fi
+
+exit 1 # this exit status means 'do not try to configure/make HLib'
 
