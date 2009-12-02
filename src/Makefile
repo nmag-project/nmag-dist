@@ -79,7 +79,8 @@ lib/libhmatrix-1.3.so:
 	touch .deps_hlib_patch
 
 .deps_hlib_configure: .deps_hlib_patch
-	cd hlib && ./configure --prefix=$(LOCAL_PATH) && cd ..
+	cd hlib && \
+	  ./configure --prefix=$(LOCAL_PATH)/nsim/interface/extra && cd ..
 	touch .deps_hlib_configure
 
 .deps_hlib_build: .deps_hlib_configure
