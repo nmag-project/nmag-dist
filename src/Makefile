@@ -68,11 +68,11 @@ DIST_FILES=README INSTALL TODO nsimconfigure Makefile bin etc include info lib m
 
 all: hlib_check .deps_nsim_install python_tools create_bin_links hints
 
-hlib_check: lib/libhmatrix-1.3.so
+hlib_check: nsim/interface/extra/lib/libhmatrix-1.3.so
 
-lib/libhmatrix-1.3.so:
+nsim/interface/extra/lib/libhmatrix-1.3.so:
 	bash ./patches/hlib/hlib-untar.sh ./hlib-pkg $(EXPECTED_HLIB_PKG) && \
-	  $(MAKE) .deps_hlib_install; true
+	  rm -f .deps_hlib_patch && $(MAKE) .deps_hlib_install; true
 
 .deps_hlib_patch:
 	cp nsim/hlib/hlibpatch.diff.gz hlib/ && \

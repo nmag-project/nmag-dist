@@ -36,7 +36,7 @@ for CANDIDATE in $CANDIDATES; do
       echo "Using an untested version of HLib may cause crashes or may lead"
       echo "to wrong results."
       echo
-      echo "Are you sure you want to proceed (press CTRL+C to stop here)"
+      echo "Are you sure you want to proceed (press CTRL+C to stop here)?"
       read
     fi
     tar xzvf $CANDIDATE
