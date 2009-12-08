@@ -36,7 +36,8 @@ PYTHON_PYTABLES_PKG=pkgs/pytables-1.4.tar.gz
 PYTHON_PY_PKG=pkgs/py-0.9.1.tar.gz
 SUNDIALS_PKG=pkgs/sundials-2.3.0.tar.gz
 HDF5_PKG=pkgs/hdf5-1.6.10.tar.bz2
-HLIB_PKG=pkgs/HLib-1.3p16.tar.gz
+EXPECTED_HLIB_PKG=HLib-1.3p19.tar.gz
+EXPECTED_HLIB_VER="1.3p19"
 
 LOCAL_PATH=${PWD}
 LOCAL_BIN=$(LOCAL_PATH)/bin
@@ -70,12 +71,12 @@ all: hlib_check .deps_nsim_install python_tools create_bin_links hints
 hlib_check: lib/libhmatrix-1.3.so
 
 lib/libhmatrix-1.3.so:
-	bash ./patches/hlib/hlib-untar.sh ./hlib-pkg && \
+	bash ./patches/hlib/hlib-untar.sh ./hlib-pkg $(EXPECTED_HLIB_PKG) && \
 	  $(MAKE) .deps_hlib_install; true
 
 .deps_hlib_patch:
 	cp nsim/hlib/hlibpatch.diff.gz hlib/ && \
-	  cd hlib && gunzip -c hlibpatch.diff.gz | patch -p1 && \
+	  (cd hlib && gunzip -c hlibpatch.diff.gz | patch -p1) && \
 	touch .deps_hlib_patch
 
 .deps_hlib_configure: .deps_hlib_patch

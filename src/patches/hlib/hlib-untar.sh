@@ -1,6 +1,7 @@
 #!/bin/bash
 
 HLIB_TARBALL_DIR="$1"
+EXPECTED_HLIB_TB_NAME="$2"
 CANDIDATES="$HLIB_TARBALL_DIR/*.tar.gz"
 SHOW_WELCOME="yes"
 WARN_USER="no"
@@ -10,10 +11,10 @@ for CANDIDATE in $CANDIDATES; do
   fi
 
   if [ $SHOW_WELCOME == yes ]; then
-    echo "====================================================="
+    echo "_____________________________________________________"
     echo " It seems you want to compile Nmag with HLib support"
     echo " I'll need your confirmation in order to proceed..."
-    echo "====================================================="
+    echo
     SHOW_WELCOME=no
   fi
 
@@ -21,6 +22,23 @@ for CANDIDATE in $CANDIDATES; do
   echo -n "Is this the HLib tarball you want to use? (yes/no) "
   read ANSWER
   if [ "x$ANSWER" == xyes -o "x$ANSWER" == xy ]; then
+    TB_NAME=`basename $CANDIDATE`
+    if [ "x$TB_NAME" != "x$EXPECTED_HLIB_TB_NAME" ]; then
+      echo
+      echo
+      echo "*****************"
+      echo "* W A R N I N G *"
+      echo "*****************"
+      echo "READ CAREFULLY WHAT FOLLOWS!"
+      echo "You want to use '$CANDIDATE',"
+      echo "while Nmag is tested only to work with a version of HLib which"
+      echo "is shipped in a tarball named '$EXPECTED_HLIB_TB_NAME'."
+      echo "Using an untested version of HLib may cause crashes or may lead"
+      echo "to wrong results."
+      echo
+      echo "Are you sure you want to proceed (press CTRL+C to stop here)"
+      read
+    fi
     tar xzvf $CANDIDATE
     rm -rf hlib
     mv HLib-* hlib
