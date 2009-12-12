@@ -1,10 +1,14 @@
 #!/bin/bash
 
 CFG=config.status
-TMPC=/tmp/nsim_test_tmp.c
-TMPDL=/tmp/libnsim_test_tmp.so
+TMPDIR=./.nsimconftest
+TMPC=nsim_test_tmp.c
+TMPDL=libnsim_test_tmp.so
 
 LN_S="ln -s"
+
+CURDIR=`pwd`
+mkdir -p $TMPDIR && cd $TMPDIR
 
 cat << EOF > $TMPC
 int my_func(void) {
@@ -14,6 +18,7 @@ EOF
 
 ARCHOPTS="macosx:-fPIC -dynamiclib,linux:-shared -fPIC"
 IFS=','
+
 for ARCHOPT in $ARCHOPTS; do
   IFS=' '
   OPTS=$(echo $ARCHOPT | cut -d ':' -f 2)
@@ -24,7 +29,8 @@ for ARCHOPT in $ARCHOPTS; do
     break
   fi
 done
-rm -f $TMPC $TMPDL
+
+cd $CURDIR && rm -rf $TMPDIR
 
 case $ARCH in
   linux) GCC_FLAVOUR=gcc; SHLIB_SUFFIX=.so ;;
