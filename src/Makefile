@@ -11,6 +11,9 @@
 # See the file README and INSTALL for more info.
 # Matteo Franchin, 16 Mar 2007
 
+# We want bash to be our shell!
+SHELL=bash
+
 # Where to find the newest nsim 0.1 core tarball
 NSIMCORETARBALL=http://nmag.soton.ac.uk/nmag/0.1/download/nmag-0.1-core.tar.gz
 
@@ -59,10 +62,10 @@ COPTFLAGS=-O3 #-m32 -march=athlon64 -msse2 -m3dnow -mfpmath=sse"
 PETSC_MORE_CONFIG_OPTS=-COPTFLAGS=$(COPTFLAGS) -CXXOPTFLAGS=$(COPTFLAGS)
 # --with-blas-lapack-dir=$(LOCAL_PATH)/atlas/lib/Linux_HAMMER32SSE2_2
 
-DIST_FILES=README INSTALL TODO nsimconfigure Makefile bin etc include info lib man \
+DIST_FILES=README INSTALL TODO patches/nsimconfigure Makefile bin etc include info lib man \
  share patches nsim pkgs
 
-.PHONY: all uninstall clean ocaml dist python_tools create_bin_links
+.PHONY: all uninstall clean ocaml dist python_tools create_bin_links check checkall check-all
 .PHONY: export_paths hints update _internal_update_part2 hlib_check
 
 all: hlib_check .deps_nsim_install python_tools create_bin_links hints
@@ -97,8 +100,8 @@ $(EXPORT_PATHS):
 	echo export PETSC_ARCH= >> $(EXPORT_PATHS)
 	echo export LD_LIBRARY_PATH=$(LOCAL_LIB):$(MPICH2_LIB_PATH):\$$LD_LIBRARY_PATH >> $(EXPORT_PATHS)
 
-config.status: nsimconfigure
-	sh nsimconfigure
+config.status: patches/nsimconfigure
+	$(SHELL) patches/nsimconfigure
 
 .deps_atlas_untar:
 	tar xzvf $(ATLAS_PKG)
@@ -543,4 +546,6 @@ check: ./nsim/bin/pytest_nsim
 
 checkall: ./nsim/bin/pytest_nsim
 	cd nsim; make checkall
+
+check-all: checkall
 
