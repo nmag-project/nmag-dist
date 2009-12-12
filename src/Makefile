@@ -27,12 +27,11 @@ MPICH2_PKG=pkgs/mpich2-1.0.4p1.tar.gz
 PETSC_PKG=pkgs/petsc-lite-2.3.3-p15.tar.gz
 PARMETIS_PKG=pkgs/ParMetis-3.1.tar.gz
 PYTHON_PKG=pkgs/Python-2.6.4.tar.bz2
-IPYTHON_PKG=pkgs/ipython-0.8.1.tar.gz
-PYTHON_NUMPY_PKG=pkgs/numpy-1.1.0.tar.gz
-#PYTHON_NUMPY_PKG=pkgs/numpy-1.0.1.tar.gz
+IPYTHON_PKG=pkgs/ipython-0.10.tar.gz
+PYTHON_NUMPY_PKG=pkgs/numpy-1.3.0.tar.gz
 PYTHON_PYVTK_PKG=pkgs/PyVTK-0.latest.tar.gz
 PYTHON_NUMARRAY_PKG=pkgs/numarray-1.5.2.tar.gz
-PYTHON_PYTABLES_PKG=pkgs/pytables-1.4.tar.gz
+PYTHON_PYTABLES_PKG=pkgs/tables-2.1.2.tar.gz
 PYTHON_PY_PKG=pkgs/py-0.9.1.tar.gz
 SUNDIALS_PKG=pkgs/sundials-2.3.0.tar.gz
 HDF5_PKG=pkgs/hdf5-1.6.10.tar.bz2
@@ -413,7 +412,7 @@ set_petsc_arch.sh: .deps_petsc_build
 
 .deps_pytables_untar: .deps_python_install .deps_hdf5_install .deps_numarray_install
 	tar xzvf $(PYTHON_PYTABLES_PKG)
-	mv pytables-* pytables
+	mv tables-* pytables
 	touch .deps_pytables_untar
 
 .deps_pytables_install: .deps_pytables_untar $(EXPORT_PATHS)
@@ -496,8 +495,8 @@ create_bin_links:
 	fi
 
 uninstall: clean
-	rm -rf bin/* etc/* lib/* include/* share/* man/* info/* \
-	 set_petsc_arch.sh exports.bash config.sh config.status
+	rm -rf bin/* etc/* lib/* nsim/interface/extra/* include/* share/* man/* \
+	 info/* set_petsc_arch.sh exports.bash config.sh config.status
 
 clean:
 	rm -rf ocaml findlib cryptokit qhull gsl ocamlgsl mpich2 \
