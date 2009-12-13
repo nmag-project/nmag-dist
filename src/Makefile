@@ -547,5 +547,12 @@ check: ./nsim/bin/pytest_nsim
 checkall: ./nsim/bin/pytest_nsim
 	cd nsim; make checkall
 
-check-all: checkall
+checkslow: ./nsim/bin/pytest_nsim
+	cd nsim; make checkslow
+
+checkmpi: ./nsim/bin/pytest_nsim
+	cd nsim; make checkmpi
+
+checkhlib: ./nsim/bin/pytest_nsim
+	cd nsim; make checkhlib
 
