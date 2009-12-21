@@ -13,7 +13,7 @@ and hence has to bring along all the packages it depends on. This is
 particularly relevant for computing clusters.)
 
 Depending on hardware characteristics, compilation will usually take
-between 20 minutes and 2 hours.
+between 15 minutes and 2 hours.
 
 The following software packages have to be available on the build system:
 
@@ -28,56 +28,6 @@ The following software packages have to be available on the build system:
 - ``readline`` libraries and headers (for ``python``, ``ipython``, ``nsim_i``).
 
 
-Package and platform specific comments
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The packages which are more likely to be missing are ``gawk`` and
-``readline``.
-
-``gawk`` (GNU awk) is a very common program. Most operating system
-distributions provide means to fetch and install a ``gawk`` package,
-which often already comes pre-installed. (We need gawk to compile one
-of the libraries [Petsc] that we depend on.)
-
-``readline`` is commonly installed on linux systems, but often without
-its development files. If the directory ``/usr/include/readline`` (or
-``/usr/local/include/readline``) exists, readline development headers
-should be available. Otherwise, it is likely that the readline library
-is installed without its development files.  On Debian-based Linux
-distributions such as Ubuntu, one can issue the command
-``aptitude install libreadline-dev``
-(resp. ``apt-get install libreadline-dev``) to install the
-missing package.
-
-Troubleshooting issues such as ending up with a ``nsim_i`` executable
-which does not show a coloured prompt and misses features such as tab
-autocompletion are discussed in the section FAQ_.
-
-The GNU compiler collection, as well as ``m4``, ``tar``, ``gzip``, ``bzip2``
-should already be present if the machine already has been used for
-some software development.
-
-These are widespread developer tools and --- as for ``gawk`` --- the
-operating system distribution should provide an easy way to install
-them.
-
-The same holds for the ``lapack`` and the ``blas`` linear algebra
-libraries.
-
-Debian
-++++++
-
-A fresh installation on debian (etch) requires the following extra
-packages to be installed:
-
-``m4`` ``gawk`` ``zlib1g-dev`` ``g++`` ``refblas3`` ``refblas3-dev``
-``lapack3`` ``lapack3-dev`` ``readline-common`` ``libreadline-dev`` ``make``
-
-Mac OS X
-++++++++
-
-On Mac OS X, fink_ can be used to install the additional tools needed by
-``nsim`` (such as ``gawk``, for example).
 
 Installation
 ------------
@@ -246,7 +196,62 @@ installation lives entirely within this directory and does not touch
 anything outside it. (The directory /tmp may be an exception, though.)
 
 
-Platforms that compile nmag from source
+
+Package and platform specific comments
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The packages which are more likely to be missing are ``gawk`` and
+``readline``.
+
+``gawk`` (GNU awk) is a very common program. Most operating system
+distributions provide means to fetch and install a ``gawk`` package,
+which often already comes pre-installed. (We need gawk to compile one
+of the libraries [Petsc] that we depend on.)
+
+``readline`` is commonly installed on linux systems, but often without
+its development files. If the directory ``/usr/include/readline`` (or
+``/usr/local/include/readline``) exists, readline development headers
+should be available. Otherwise, it is likely that the readline library
+is installed without its development files.  On Debian-based Linux
+distributions such as Ubuntu, one can issue the command
+``aptitude install libreadline-dev``
+(resp. ``apt-get install libreadline-dev``) to install the
+missing package.
+
+Troubleshooting issues such as ending up with a ``nsim_i`` executable
+which does not show a coloured prompt and misses features such as tab
+autocompletion are discussed in the section FAQ_.
+
+The GNU compiler collection, as well as ``m4``, ``tar``, ``gzip``, ``bzip2``
+should already be present if the machine already has been used for
+some software development.
+
+These are widespread developer tools and --- as for ``gawk`` --- the
+operating system distribution should provide an easy way to install
+them.
+
+The same holds for the ``lapack`` and the ``blas`` linear algebra
+libraries.
+
+Debian
+++++++
+
+A fresh installation on debian (etch) requires the following extra
+packages to be installed:
+
+``m4`` ``gawk`` ``zlib1g-dev`` ``g++`` ``libblas-dev`` 
+``liblapack-dev`` ``readline-common`` ``libreadline-dev`` ``make``
+
+(This list needs updating for Lenny.)
+
+Mac OS X
+++++++++
+
+On Mac OS X, fink_ can be used to install the additional tools needed by
+``nsim`` (such as ``gawk``, for example).
+
+
+Platforms that compile Nmag from source
 ---------------------------------------
 
 The software has been compiled successfully (and without intervention)
@@ -261,6 +266,8 @@ on the following systems:
    - MacBook Pro (Intel), Mac OS X Leopard (10.5) system;
 
    - AMD Athlon 64 (running in 32bit mode) with Debian Linux (Etch);
+
+   - AMD Athlon 64 (running in 32bit mode) with Debian Linux (Lenny);
 
    - Opteron machine running 64bit linux;
 
@@ -289,7 +296,6 @@ Platforms that needed a little help:
      package on the Linpus is broken and stopped the installation. He
      downloaded the original diffutils from the GNU webpage, installed
      this. Afterwards, Nmag compile automatically from source (Dec 2008).
-
 
 
 Please let us know (by email to `nsim developers`_) if you have
