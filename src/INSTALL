@@ -29,6 +29,14 @@ The following software packages have to be available on the build system:
 
 
 
+Download
+--------
+
+Click on the following link to download ``nsim``/``nmag``:
+`nmag-0.1-all.tar.gz <http://nmag.soton.ac.uk/nmag/0.1/download/nmag-0.1-all.tar.gz>`__
+
+
+
 Installation
 ------------
 
@@ -128,11 +136,11 @@ This should take less than one minute to complete. If the output finishes with :
 (where k and l are integers), then all seems to be well. Congratulations.
 
 
-The l tests that have been skipped, take more computation time. To
-test them as well, one can use::
+The l tests that have been skipped, take more computation time (of the
+order of 2 hours). To test them as well, one can use::
 
   $ cd nmag-0.1
-  $ make checkall
+  $ make checkslow
 
 
 If, after completion of either of these checks, the last line reads::
@@ -142,6 +150,12 @@ If, after completion of either of these checks, the last line reads::
 then m tests have failed. You will also get further debug output
 following this summary line. Your best bet is to get in contact with
 the nmag team.
+
+Other available test targets are ``make checkmpi`` and ``make
+checkhlib``. Please read the corresponding sections in the manual
+before running those (they will fail unless the right environment has
+been set up).
+
 
 
 .. comment:
@@ -301,11 +315,6 @@ Platforms that needed a little help:
 Please let us know (by email to `nsim developers`_) if you have
 compiled it on other system configurations.
 
-Download
---------
-
-Click on the following link to download ``nsim``/``nmag``:
-`nmag-0.1-all.tar.gz <http://nmag.soton.ac.uk/nmag/0.1/download/nmag-0.1-all.tar.gz>`__
 
 .. _FAQ:
 
