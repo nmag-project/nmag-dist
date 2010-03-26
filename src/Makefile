@@ -66,7 +66,7 @@ DIST_FILES=README INSTALL TODO patches/nsimconfigure Makefile bin etc include in
  share patches nsim pkgs
 
 .PHONY: all uninstall clean ocaml dist python_tools create_bin_links check checkall check-all
-.PHONY: export_paths hints update _internal_update_part2 hlib_check
+.PHONY: export_paths hints update _internal_update_part2 hlib_check hierarchy
 
 all: hlib_check .deps_nsim_install python_tools create_bin_links hints
 
@@ -555,4 +555,7 @@ checkmpi: ./nsim/bin/pytest_nsim
 
 checkhlib: ./nsim/bin/pytest_nsim
 	cd nsim; make checkhlib
+
+hierarchy:
+	mkdir -p bin etc hlib-pkg include info lib man pkgs share
 
