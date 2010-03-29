@@ -248,7 +248,9 @@ config.status: patches/nsimconfigure
 	touch .deps_mpich2_build
 
 .deps_mpich2_install: .deps_mpich2_build
-	cd mpich2 && make install && cd ..
+	cd mpich2 && make install && cd .. && \
+	 [ -f lib/mpich2/lib/libmpi.so ] \
+	   || (cd lib/mpich2/lib && ln -s libmpich.so libmpi.so)
 	touch .deps_mpich2_install
 
 .deps_petsc_untar: .deps_python_install
@@ -464,8 +466,8 @@ nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh $(EXPO
 	  --includedir=$(LOCAL_INCLUDE) \
 	  --full-lib-name \
 	  --petsc-libdir=$(PETSC_LIB_PATH)/lib/$$PETSC_ARCH \
-	  --mpich-libdir=$(MPICH2_LIB_PATH) \
-	  --mpich-includedir=$(MPICH2_PATH)/include \
+	  --mpi-libdir=$(MPICH2_LIB_PATH) \
+	  --mpi-includedir=$(MPICH2_PATH)/include \
 	  --pmpich-libdir=$(MPICH2_LIB_PATH) \
 	  --petsc-includedir=$(LOCAL_LIB)/petsc/include \
 	  --metis-includedir=$(LOCAL_PATH)/parmetis/METISLib && \
