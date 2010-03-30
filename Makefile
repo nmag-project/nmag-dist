@@ -57,6 +57,7 @@ PETSC_VERSION=2.3.1
 PETSC_DEFINE=PETSC230
 
 EXPORT_PATHS=./export_paths.sh
+NSIM_LDFLAGS_FILE=nsim/bin/ldflags.bash
 
 COPTFLAGS=-O3 #-m32 -march=athlon64 -msse2 -m3dnow -mfpmath=sse"
 PETSC_MORE_CONFIG_OPTS=-COPTFLAGS=$(COPTFLAGS) -CXXOPTFLAGS=$(COPTFLAGS)
@@ -454,10 +455,10 @@ exports.bash: set_petsc_arch.sh
 	echo export PETSC_ARCH= >> exports.bash
 	. ./set_petsc_arch.sh && \
 	echo export LD_LIBRARY_PATH=$(LOCAL_PATH)/lib:$(PETSC_LIB_PATH)/lib/$${PETSC_ARCH}:$(MPICH2_LIB_PATH):\$$LD_LIBRARY_PATH >> exports.bash
-	cp exports.bash nsim/config/exports.sh
+	cp exports.bash $(NSIM_LDFLAGS_FILE)
 
-nsim/config/exports.sh: exports.bash
-	cp exports.bash nsim/config/exports.sh
+$(NSIM_LDFLAGS_FILE): exports.bash
+	cp exports.bash $@
 
 nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh $(EXPORT_PATHS)
 	. ./set_petsc_arch.sh && . $(EXPORT_PATHS) && cd nsim/config && \
@@ -478,7 +479,7 @@ nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh $(EXPO
  .deps_mpich2_install .deps_petsc_setup \
  .deps_parmetis_install .deps_python_install \
  .deps_sundials_install \
- exports.bash nsim/config/exports.sh nsim/config/configuration.inc
+ exports.bash $(NSIM_LDFLAGS_FILE) nsim/config/configuration.inc
 	. ./exports.bash && cd nsim && ${MAKE} && cd ..
 	touch .deps_nsim_install
 
