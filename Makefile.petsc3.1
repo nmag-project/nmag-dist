@@ -258,14 +258,14 @@ config.status: patches/nsimconfigure
 	touch .deps_petsc_untar
 
 .deps_petsc_patch: .deps_petsc_untar
-	sh patches/petsc/patches.sh $(PETSC_LIB_PATH)
+	$(SHELL) patches/petsc/patches.sh $(PETSC_LIB_PATH)
 	touch .deps_petsc_patch
 
 .deps_petsc_configure: .deps_petsc_patch .deps_mpich2_install $(EXPORT_PATHS)
 	. $(EXPORT_PATHS) && \
 	 cd $(PETSC_LIB_PATH) && \
 	 $(PYTHON) ./config/configure.py --with-shared \
-	  --with-single-library=0 \
+	  --with-single-library=1 \
 	  --with-mpi-dir=$(MPICH2_PATH) $(PETSC_MORE_CONFIG_OPTS) && \
 	 cd ..
 	touch .deps_petsc_configure
@@ -457,12 +457,13 @@ exports.bash: set_petsc_arch.sh
 $(NSIM_LDFLAGS_FILE): exports.bash
 	cp exports.bash $@
 
-nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh $(EXPORT_PATHS)
-	. ./set_petsc_arch.sh && . $(EXPORT_PATHS) && cd nsim/config && \
+nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh exports.bash
+	. ./set_petsc_arch.sh && . exports.bash && cd nsim/config && \
 	 $(PYTHON) configure.py \
 	  --libdir=$(LOCAL_LIB) \
 	  --includedir=$(LOCAL_INCLUDE) \
 	  --full-lib-name \
+	  --with-single-petsc-lib \
 	  --petsc-libdir=$(PETSC_LIB_PATH)/$$PETSC_ARCH/lib \
 	  --mpi-libdir=$(MPICH2_LIB_PATH) \
 	  --mpi-includedir=$(MPICH2_PATH)/include \
