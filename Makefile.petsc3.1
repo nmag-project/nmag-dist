@@ -284,7 +284,7 @@ set_petsc_arch.sh: .deps_petsc_build
 
 .deps_petsc_setup: set_petsc_arch.sh
 	. ./set_petsc_arch.sh; \
-	cp -n $(PETSC_LIB_PATH)/$${PETSC_ARCH}/include/*.h $(PETSC_INCLUDE_PATH)/ && \
+	cp $(PETSC_LIB_PATH)/$${PETSC_ARCH}/include/*.h $(PETSC_INCLUDE_PATH)/ && \
 	touch .deps_petsc_setup
 
 .deps_parmetis_untar:
