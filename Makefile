@@ -35,6 +35,7 @@ PYTHON_NUMPY_PKG=pkgs/numpy-1.3.0.tar.gz
 PYTHON_PYVTK_PKG=pkgs/PyVTK-0.latest.tar.gz
 PYTHON_NUMARRAY_PKG=pkgs/numarray-1.5.2.tar.gz
 PYTHON_PYTABLES_PKG=pkgs/tables-2.1.2.tar.gz
+PYTHON_SCIPY_PKG=pkgs/scipy-0.7.2.tar.gz
 PYTHON_PY_PKG=pkgs/py-0.9.1.tar.gz
 SUNDIALS_PKG=pkgs/sundials-2.3.0.tar.gz
 HDF5_PKG=pkgs/hdf5-1.6.10.tar.bz2
@@ -439,6 +440,17 @@ set_petsc_arch.sh: .deps_petsc_build
 	 $(PYTHON) setup.py install && \
 	 cd ..
 	touch .deps_py_install
+
+.deps_scipy_untar:
+	rm -rf scipy scipy-?.?.?
+	tar xzvf $(PYTHON_SCIPY_PKG)
+	mv scipy-?.?.? scipy
+	touch .deps_scipy_untar
+
+.deps_scipy_install:
+	. $(EXPORT_PATHS) && \
+	cd scipy && $(PYTHON) setup.py install && cd ..
+	touch .deps_scipy_install
 
 .deps_ipython_untar: .deps_python_install
 	tar xzvf $(IPYTHON_PKG)
