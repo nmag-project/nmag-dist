@@ -447,7 +447,7 @@ set_petsc_arch.sh: .deps_petsc_build
 	mv scipy-?.?.? scipy
 	touch .deps_scipy_untar
 
-.deps_scipy_install:
+.deps_scipy_install: .deps_scipy_untar
 	. $(EXPORT_PATHS) && \
 	cd scipy && $(PYTHON) setup.py install && cd ..
 	touch .deps_scipy_install
