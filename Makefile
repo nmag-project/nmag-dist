@@ -268,7 +268,9 @@ config.status: patches/nsimconfigure
 	. $(EXPORT_PATHS) && \
 	 cd $(PETSC_LIB_PATH) && \
 	 $(PYTHON) ./config/configure.py --with-shared \
-	  --with-mpi-dir=$(MPICH2_PATH) $(PETSC_MORE_CONFIG_OPTS) && \
+	  --with-mpi-dir=$(MPICH2_PATH) $(PETSC_MORE_CONFIG_OPTS) \
+          --with-debugging=no \
+	  --with-blas-lapack-lib="-L/local/software/intel/mkl/10.2.1.017/lib/em64t -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core -liomp5 -lm -lpthread" && \
 	 cd ..
 	touch .deps_petsc_configure
 
