@@ -1,0 +1,84 @@
+#!/bin/bash
+# If the compilation of Nmag failed on your system, you are encouraged to use
+# this script to generate a bug report, which may help the Nmag developers to
+# understand the bug. Use it in this way:
+#
+#   cd nmag-0.1 # enter the directory where your Nmag distribution is 
+#   ./build-bug-report
+#
+# The command will create an archive (i.e. a file named bug-report.tgz)
+# containing information about the status of the compilation of Nmag, plus some
+# details about your system (processor type, distribution, etc).
+# You should send this file by mail to the Nmag developers.
+
+NMAGROOT=.
+BUGREPORT=$NMAGROOT/bug-report
+
+if [ -d $BUGREPORT ]; then
+  echo "Remove (or rename) the directory $BUGREPORT before proceeding."
+  exit 1
+fi
+
+echo "Creating temporary directory to collect debug information"
+mkdir $BUGREPORT
+
+echo "Getting dependency status"
+(cd $NMAGROOT && ls -l --sort=time .deps*) >> $BUGREPORT/deps
+
+function myls {
+  echo ls -l $* >> $BUGREPORT/libs
+  ls -l $* >> $BUGREPORT/libs
+}
+
+echo "Getting content of pkgs and lib directories"
+myls $NMAGROOT/pkgs
+myls $NMAGROOT/lib
+myls $NMAGROOT/lib/petsc/lib
+myls $NMAGROOT/lib/mpich2/lib
+
+echo "Getting ldd for nsim executable"
+NSIM_EXEC=$NMAGROOT/nsim/pyfem3/pyfem3
+if [ -x $NSIM_EXEC ]; then
+  (. $NMAGROOT/exports.bash && ldd $NMAGROOT/nsim/pyfem3/pyfem3) \
+      >> $BUGREPORT/nsim.ldd
+else
+  echo "Nsim executable ($NSIM_EXEC) not found"
+fi
+
+echo "Getting nsim configuration and compilation logs"
+FILES="export_paths.sh exports.bash set_petsc_arch.sh nsim/bin/ldflags.bash \
+       nsim/compilation.log nsim/config/configuration.inc \
+       nsim/bin/ldflags.bash Makefile"
+
+for FILE in $FILES; do
+  INFILE=$NMAGROOT/$FILE
+  FILENAME=`echo $FILE | tr / _`
+  OUTFILE=$BUGREPORT/$FILENAME
+
+  if [ -f $INFILE ]; then
+    echo "  Including in bug report: $INFILE --> $OUTFILE."
+    cp $INFILE $OUTFILE
+
+  else
+    echo "  File $INFILE not found."
+    OUTFILE=$BUGREPORT/no_$FILENAME
+    touch $OUTFILE
+  fi
+done
+
+echo "Getting processor information"
+cat /proc/cpuinfo >> $BUGREPORT/proc_cpuinfo
+
+echo "Getting system information"
+cat /proc/version >> $BUGREPORT/proc_version
+cat /etc/issue >> $BUGREPORT/etc_issue
+uname -a >> $BUGREPORT/uname_a
+
+echo "Getting distribution name"
+
+echo "Building tar file with all the collected files"
+tar czvf bug-report.tgz $BUGREPORT
+
+echo "Removing temporary directory"
+rm -rf $BUGREPORT
+
