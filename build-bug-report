@@ -1,7 +1,7 @@
 #!/bin/bash
-# If the compilation of Nmag failed on your system, you are encouraged to use
+# If the compilation of Nmag fails on your system, you are encouraged to use
 # this script to generate a bug report, which may help the Nmag developers to
-# understand the bug. Use it in this way:
+# understand the bug and fix it. Use it in this way:
 #
 #   cd nmag-0.1 # enter the directory where your Nmag distribution is 
 #   ./build-bug-report
@@ -9,7 +9,8 @@
 # The command will create an archive (i.e. a file named bug-report.tgz)
 # containing information about the status of the compilation of Nmag, plus some
 # details about your system (processor type, distribution, etc).
-# You should send this file by mail to the Nmag developers.
+# You should send this file by mail to the Nmag developers, if you want them to
+# help you with it.
 
 NMAGROOT=.
 BUGREPORT=$NMAGROOT/bug-report
