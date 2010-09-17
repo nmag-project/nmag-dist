@@ -264,11 +264,18 @@ config.status: patches/nsimconfigure
 	sh patches/petsc/patches.sh $(PETSC_LIB_PATH)
 	touch .deps_petsc_patch
 
+
+# for Intel MKL you may need to use:
+#   --with-blas-lapack-lib="-L/local/software/intel/mkl/10.2.1.017/lib/em64t \
+#                           -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core \
+#                           -liomp5 -lm -lpthread" && \
+
 .deps_petsc_configure: .deps_petsc_patch .deps_mpich2_install $(EXPORT_PATHS)
 	. $(EXPORT_PATHS) && \
 	 cd $(PETSC_LIB_PATH) && \
 	 $(PYTHON) ./config/configure.py --with-shared \
-	  --with-mpi-dir=$(MPICH2_PATH) $(PETSC_MORE_CONFIG_OPTS) && \
+	   --with-mpi-dir=$(MPICH2_PATH) $(PETSC_MORE_CONFIG_OPTS) \
+       --with-debugging=no \
 	 cd ..
 	touch .deps_petsc_configure
 
