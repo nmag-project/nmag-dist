@@ -23,6 +23,7 @@ fi
 echo "Creating temporary directory to collect debug information"
 mkdir $BUGREPORT
 
+# Take not of what has been built
 echo "Getting dependency status"
 (cd $NMAGROOT && ls -l --sort=time .deps*) >> $BUGREPORT/deps
 
@@ -31,12 +32,17 @@ function myls {
   ls -l $* >> $BUGREPORT/libs
 }
 
+# Take note of the files which have been generated
+# (useful to see that all shared libraries have been generated)
 echo "Getting content of pkgs and lib directories"
 myls $NMAGROOT/pkgs
 myls $NMAGROOT/lib
 myls $NMAGROOT/lib/petsc/lib
 myls $NMAGROOT/lib/mpich2/lib
+myls $NMAGROOT/nsim/interface/extra/lib
 
+# See what libraries the Nsim executable is actually linking to
+# (useful to see if there are some linking problems or conflicts between libs)
 echo "Getting ldd for nsim executable"
 NSIM_EXEC=$NMAGROOT/nsim/pyfem3/pyfem3
 if [ -x $NSIM_EXEC ]; then
@@ -46,6 +52,16 @@ else
   echo "Nsim executable ($NSIM_EXEC) not found"
 fi
 
+# The output of nm should show some lindholm functions (the ones in the patch)
+echo "Getting content of HLib library (if present)"
+HLIB_LIBHMATRIX=$NMAGROOT/nsim/interface/extra/lib/libhmatrix-1.3.so
+if [ -x $HLIB_HLIBRARY ]; then
+  nm nsim/interface/extra/lib/libhmatrix-1.3.so > $BUGREPORT/libhmatrix.nm
+else
+  echo "HLib library ($HLIB_LIBHMATRIX) not found"
+fi
+
+# Copy the logs and other useful files
 echo "Getting nsim configuration and compilation logs"
 FILES="export_paths.sh exports.bash set_petsc_arch.sh nsim/bin/ldflags.bash \
        nsim/compilation.log nsim/config/configuration.inc \
@@ -67,16 +83,17 @@ for FILE in $FILES; do
   fi
 done
 
+# Now we start to get info about the machine: here the processor...
 echo "Getting processor information"
 cat /proc/cpuinfo >> $BUGREPORT/proc_cpuinfo
 
+# Distribution, kernel and architecture...
 echo "Getting system information"
 cat /proc/version >> $BUGREPORT/proc_version
 cat /etc/issue >> $BUGREPORT/etc_issue
 uname -a >> $BUGREPORT/uname_a
 
-echo "Getting distribution name"
-
+# Finally we pack everything in one single file
 echo "Building tar file with all the collected files"
 tar czvf bug-report.tgz $BUGREPORT
 
