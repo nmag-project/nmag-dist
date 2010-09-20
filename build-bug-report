@@ -14,6 +14,7 @@
 
 NMAGROOT=.
 BUGREPORT=$NMAGROOT/bug-report
+PROBLEMS=$BUGREPORT/problems
 
 if [ -d $BUGREPORT ]; then
   echo "Remove (or rename) the directory $BUGREPORT before proceeding."
@@ -50,15 +51,17 @@ if [ -x $NSIM_EXEC ]; then
       >> $BUGREPORT/nsim.ldd
 else
   echo "Nsim executable ($NSIM_EXEC) not found"
+  echo "Nsim executable ($NSIM_EXEC) not found" >> $PROBLEMS
 fi
 
 # The output of nm should show some lindholm functions (the ones in the patch)
 echo "Getting content of HLib library (if present)"
 HLIB_LIBHMATRIX=$NMAGROOT/nsim/interface/extra/lib/libhmatrix-1.3.so
-if [ -x $HLIB_HLIBRARY ]; then
-  nm nsim/interface/extra/lib/libhmatrix-1.3.so > $BUGREPORT/libhmatrix.nm
+if [ -f $HLIB_LIBHMATRIX ]; then
+  nm $HLIB_LIBHMATRIX > $BUGREPORT/libhmatrix.nm
 else
   echo "HLib library ($HLIB_LIBHMATRIX) not found"
+  echo "HLib library ($HLIB_LIBHMATRIX) not found" >> $PROBLEMS
 fi
 
 # Copy the logs and other useful files
@@ -78,8 +81,7 @@ for FILE in $FILES; do
 
   else
     echo "  File $INFILE not found."
-    OUTFILE=$BUGREPORT/no_$FILENAME
-    touch $OUTFILE
+    echo "File $INFILE not found." >> $PROBLEMS
   fi
 done
 
