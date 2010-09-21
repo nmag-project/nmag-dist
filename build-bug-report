@@ -85,6 +85,19 @@ for FILE in $FILES; do
   fi
 done
 
+# Get a copy of the environment variables
+echo "Getting environment variables"
+export > $BUGREPORT/environment
+
+# Checking the executables we use
+echo "Getting path to executables"
+FILES="ocaml ocamlfind"
+for FILE in $FILES; do
+  SYSEXEC=`which $FILE`
+  (. $NMAGROOT/exports.bash; OUREXEC=`which $FILE`; \
+      echo "sys: $SYSEXEC, our: $OUREXEC") >> $BUGREPORT/which
+done
+
 # Now we start to get info about the machine: here the processor...
 echo "Getting processor information"
 cat /proc/cpuinfo >> $BUGREPORT/proc_cpuinfo
