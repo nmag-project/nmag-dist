@@ -37,6 +37,7 @@ function myls {
 # (useful to see that all shared libraries have been generated)
 echo "Getting content of pkgs and lib directories"
 myls $NMAGROOT/pkgs
+myls $NMAGROOT/hlib-pkg
 myls $NMAGROOT/lib
 myls $NMAGROOT/lib/petsc/lib
 myls $NMAGROOT/lib/mpich2/lib

@@ -75,8 +75,10 @@ all: hlib_check .deps_nsim_install python_tools create_bin_links hints
 hlib_check: nsim/interface/extra/lib/libhmatrix-1.3.so
 
 nsim/interface/extra/lib/libhmatrix-1.3.so:
-	bash ./patches/hlib/hlib-untar.sh ./hlib-pkg $(EXPECTED_HLIB_PKG) && \
-	  rm -f .deps_hlib_patch && $(MAKE) .deps_hlib_install; true
+	bash ./patches/hlib/hlib-untar.sh ./hlib-pkg $(EXPECTED_HLIB_PKG); \
+	  if [ $$? -eq 0 ]; \
+	  then rm -f .deps_hlib_patch; $(MAKE) .deps_hlib_install; \
+	  else true; fi
 
 .deps_hlib_patch:
 	cp nsim/hlib/hlibpatch.diff.gz hlib/ && \
