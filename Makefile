@@ -87,7 +87,8 @@ nsim/interface/extra/lib/libhmatrix-1.3.so:
 
 .deps_hlib_configure: .deps_hlib_patch
 	cd hlib && \
-	  ./configure --prefix=$(LOCAL_PATH)/nsim/interface/extra && cd ..
+	  ./configure --prefix=$(LOCAL_PATH)/nsim/interface/extra \
+	              --enable-shared && cd ..
 	touch .deps_hlib_configure
 
 .deps_hlib_build: .deps_hlib_configure
