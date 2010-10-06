@@ -26,12 +26,12 @@ CRYPTOKIT_PKG=pkgs/cryptokit-1.2.tar.gz
 QHULL_PKG=pkgs/qhull-2003.1.tar.gz
 GSL_PKG=pkgs/gsl-1.14.tar.gz
 OCAMLGSL_PKG=pkgs/ocamlgsl-0.6.0.tar.gz
-MPICH2_PKG=pkgs/mpich2-1.0.4p1.tar.gz
+MPICH2_PKG=pkgs/mpich2-1.2.1p1.tar.gz
 PETSC_PKG=pkgs/petsc-lite-2.3.3-p15.tar.gz
-PARMETIS_PKG=pkgs/ParMetis-3.1.tar.gz
+PARMETIS_PKG=pkgs/ParMetis-3.1.1.tar.gz
 PYTHON_PKG=pkgs/Python-2.6.4.tar.bz2
 IPYTHON_PKG=pkgs/ipython-0.10.tar.gz
-PYTHON_NUMPY_PKG=pkgs/numpy-1.3.0.tar.gz
+PYTHON_NUMPY_PKG=pkgs/numpy-1.5.0.tar.gz
 PYTHON_PYVTK_PKG=pkgs/PyVTK-0.latest.tar.gz
 PYTHON_NUMARRAY_PKG=pkgs/numarray-1.5.2.tar.gz
 PYTHON_PYTABLES_PKG=pkgs/tables-2.1.2.tar.gz
@@ -524,7 +524,8 @@ create_bin_links:
 
 uninstall: clean
 	rm -rf bin/* etc/* lib/* nsim/interface/extra/* include/* share/* man/* \
-	 info/* set_petsc_arch.sh exports.bash config.sh config.status
+	 info/* set_petsc_arch.sh exports.bash export_paths.sh config.sh \
+	 config.status
 
 clean:
 	rm -rf ocaml findlib cryptokit qhull gsl ocamlgsl mpich2 \
