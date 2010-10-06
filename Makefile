@@ -27,7 +27,7 @@ QHULL_PKG=pkgs/qhull-2003.1.tar.gz
 GSL_PKG=pkgs/gsl-1.14.tar.gz
 OCAMLGSL_PKG=pkgs/ocamlgsl-0.6.0.tar.gz
 MPICH2_PKG=pkgs/mpich2-1.2.1p1.tar.gz
-PETSC_PKG=pkgs/petsc-lite-2.3.3-p15.tar.gz
+PETSC_PKG=pkgs/petsc-lite-3.1-p5.tar.gz
 PARMETIS_PKG=pkgs/ParMetis-3.1.1.tar.gz
 PYTHON_PKG=pkgs/Python-2.6.4.tar.bz2
 IPYTHON_PKG=pkgs/ipython-0.10.tar.gz
@@ -52,7 +52,6 @@ MPICH2_PATH=$(LOCAL_PATH)/lib/mpich2
 MPICH2_LIB_PATH=$(MPICH2_PATH)/lib
 MPICH2_BIN_PATH=$(MPICH2_PATH)/bin
 PETSC_LIB_PATH=$(LOCAL_PATH)/lib/petsc
-PETSC_LIBRARY_PATH=$(PETSC_LIB_PATH)/my_arch
 PETSC_INCLUDE_PATH=$(PETSC_LIB_PATH)/include
 PETSC_VERSION=2.3.1
 PETSC_DEFINE=PETSC230
@@ -88,8 +87,9 @@ nsim/interface/extra/lib/libhmatrix-1.3.so:
 .deps_hlib_configure: .deps_hlib_patch
 	cd hlib && \
 	  ./configure --prefix=$(LOCAL_PATH)/nsim/interface/extra \
-	              --enable-shared && cd ..
+                  --enable-shared && cd ..
 	touch .deps_hlib_configure
+
 
 .deps_hlib_build: .deps_hlib_configure
 	cd hlib && make && cd ..
@@ -102,7 +102,6 @@ nsim/interface/extra/lib/libhmatrix-1.3.so:
 $(EXPORT_PATHS):
 	export PATH=$(LOCAL_BIN):$(MPICH2_BIN_PATH):\$$PATH > $(EXPORT_PATHS)
 	echo export PETSC_DIR=$(PETSC_LIB_PATH) >> $(EXPORT_PATHS)
-	echo export PETSC_ARCH= >> $(EXPORT_PATHS)
 	echo export LD_LIBRARY_PATH=$(LOCAL_LIB):$(MPICH2_LIB_PATH):\$$LD_LIBRARY_PATH >> $(EXPORT_PATHS)
 
 config.status: patches/nsimconfigure
@@ -264,12 +263,12 @@ config.status: patches/nsimconfigure
 	touch .deps_petsc_untar
 
 .deps_petsc_patch: .deps_petsc_untar
-	sh patches/petsc/patches.sh $(PETSC_LIB_PATH)
+	$(SHELL) patches/petsc/patches.sh $(PETSC_LIB_PATH)
 	touch .deps_petsc_patch
 
 
 # for Intel MKL you may need to use:
-#   --with-blas-lapack-lib="-L/local/software/intel/mkl/10.2.1.017/lib/em64t \
+# --with-blas-lapack-lib="-L/local/software/intel/mkl/10.2.1.017/lib/em64t \
 #                           -lmkl_intel_lp64 -lmkl_gnu_thread -lmkl_core \
 #                           -liomp5 -lm -lpthread" && \
 
@@ -277,8 +276,9 @@ config.status: patches/nsimconfigure
 	. $(EXPORT_PATHS) && \
 	 cd $(PETSC_LIB_PATH) && \
 	 $(PYTHON) ./config/configure.py --with-shared \
-	   --with-mpi-dir=$(MPICH2_PATH) $(PETSC_MORE_CONFIG_OPTS) \
-       --with-debugging=no \
+	  --with-single-library=1 \
+	  --with-mpi-dir=$(MPICH2_PATH) $(PETSC_MORE_CONFIG_OPTS) \
+	  --with-debugging=no && \
 	 cd ..
 	touch .deps_petsc_configure
 
@@ -286,19 +286,17 @@ config.status: patches/nsimconfigure
 	cd $(PETSC_LIB_PATH) && \
 	 export PATH=$(MPICH2_BIN_PATH):$$PATH && \
 	 export PETSC_DIR=$(PETSC_LIB_PATH) && \
-	 export PETSC_ARCH= && \
 	 make all && \
 	 cd ..
 	touch .deps_petsc_build
 
 set_petsc_arch.sh: .deps_petsc_build
-	PETSC_ARCH=`grep PETSC_ARCH $(PETSC_LIB_PATH)/bmake/petscconf | cut -d = -f 2` && \
-	echo PETSC_ARCH=$${PETSC_ARCH} > set_petsc_arch.sh
-
+	PETSC_ARCH=`grep -e 'PETSC_ARCH[ \t]*=' $(PETSC_LIB_PATH)/conf/petscvariables | cut -d = -f 2` && \
+	 echo PETSC_ARCH=$$PETSC_ARCH > set_petsc_arch.sh
 
 .deps_petsc_setup: set_petsc_arch.sh
 	. ./set_petsc_arch.sh; \
-	cp $(PETSC_LIB_PATH)/bmake/$${PETSC_ARCH}/petscconf.h $(PETSC_INCLUDE_PATH)/
+	cp $(PETSC_LIB_PATH)/$${PETSC_ARCH}/include/*.h $(PETSC_INCLUDE_PATH)/ && \
 	touch .deps_petsc_setup
 
 .deps_parmetis_untar:
@@ -450,13 +448,12 @@ set_petsc_arch.sh: .deps_petsc_build
 	 $(PYTHON) setup.py install && \
 	 cd ..
 	touch .deps_py_install
-
 .deps_scipy_untar:
 	rm -rf scipy scipy-?.?.?
 	tar xzvf $(PYTHON_SCIPY_PKG)
 	mv scipy-?.?.? scipy
 	touch .deps_scipy_untar
-
+ 
 .deps_scipy_install: .deps_scipy_untar
 	. $(EXPORT_PATHS) && \
 	cd scipy && $(PYTHON) setup.py install && cd ..
@@ -474,21 +471,22 @@ set_petsc_arch.sh: .deps_petsc_build
 exports.bash: set_petsc_arch.sh
 	echo export PATH=$(LOCAL_BIN):$(MPICH2_BIN_PATH):\$$PATH > exports.bash
 	echo export PETSC_DIR=$(PETSC_LIB_PATH) >> exports.bash
-	echo export PETSC_ARCH= >> exports.bash
 	. ./set_petsc_arch.sh && \
-	echo export LD_LIBRARY_PATH=$(LOCAL_PATH)/lib:$(PETSC_LIB_PATH)/lib/$${PETSC_ARCH}:$(MPICH2_LIB_PATH):\$$LD_LIBRARY_PATH >> exports.bash
+	echo export LD_LIBRARY_PATH=$(LOCAL_PATH)/lib:$(PETSC_LIB_PATH)/$${PETSC_ARCH}/lib:$(MPICH2_LIB_PATH):\$$LD_LIBRARY_PATH >> exports.bash && \
+	echo export PETSC_ARCH=$${PETSC_ARCH}
 	cp exports.bash $(NSIM_LDFLAGS_FILE)
 
 $(NSIM_LDFLAGS_FILE): exports.bash
 	cp exports.bash $@
 
-nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh $(EXPORT_PATHS)
-	. ./set_petsc_arch.sh && . $(EXPORT_PATHS) && cd nsim/config && \
+nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh exports.bash
+	. ./set_petsc_arch.sh && . exports.bash && cd nsim/config && \
 	 $(PYTHON) configure.py \
 	  --libdir=$(LOCAL_LIB) \
 	  --includedir=$(LOCAL_INCLUDE) \
 	  --full-lib-name \
-	  --petsc-libdir=$(PETSC_LIB_PATH)/lib/$$PETSC_ARCH \
+	  --with-single-petsc-lib \
+	  --petsc-libdir=$(PETSC_LIB_PATH)/$$PETSC_ARCH/lib \
 	  --mpi-libdir=$(MPICH2_LIB_PATH) \
 	  --mpi-includedir=$(MPICH2_PATH)/include \
 	  --pmpich-libdir=$(MPICH2_LIB_PATH) \
