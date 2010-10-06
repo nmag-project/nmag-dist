@@ -20,14 +20,14 @@ NSIMCORETARBALL=http://nmag.soton.ac.uk/nmag/0.1/download/nmag-0.1-core.tar.gz
 # List of packages we are using at the moment
 ATLAS_PKG=pkgs/atlas3.6.0.tar.gz
 LAPACK_PKG=pkgs/lapack.tgz
-OCAML_PKG=pkgs/ocaml-3.09.3.tar.bz2
-OCAMLFINDLIB_PKG=pkgs/findlib-1.1.2pl1.tar.gz
+OCAML_PKG=pkgs/ocaml-3.12.0.tar.bz2
+OCAMLFINDLIB_PKG=pkgs/findlib-1.2.1.tar.gz
 CRYPTOKIT_PKG=pkgs/cryptokit-1.2.tar.gz
 QHULL_PKG=pkgs/qhull-2003.1.tar.gz
-GSL_PKG=pkgs/gsl-1.8.tar.gz
-OCAMLGSL_PKG=pkgs/ocamlgsl-0.4.0.tar.gz
+GSL_PKG=pkgs/gsl-1.14.tar.gz
+OCAMLGSL_PKG=pkgs/ocamlgsl-0.6.0.tar.gz
 MPICH2_PKG=pkgs/mpich2-1.0.4p1.tar.gz
-PETSC_PKG=pkgs/petsc-lite-3.1-p1.tar.gz
+PETSC_PKG=pkgs/petsc-lite-3.1-p5.tar.gz
 PARMETIS_PKG=pkgs/ParMetis-3.1.tar.gz
 PYTHON_PKG=pkgs/Python-2.6.4.tar.bz2
 IPYTHON_PKG=pkgs/ipython-0.10.tar.gz
@@ -35,6 +35,7 @@ PYTHON_NUMPY_PKG=pkgs/numpy-1.3.0.tar.gz
 PYTHON_PYVTK_PKG=pkgs/PyVTK-0.latest.tar.gz
 PYTHON_NUMARRAY_PKG=pkgs/numarray-1.5.2.tar.gz
 PYTHON_PYTABLES_PKG=pkgs/tables-2.1.2.tar.gz
+PYTHON_SCIPY_PKG=pkgs/scipy-0.7.2.tar.gz
 PYTHON_PY_PKG=pkgs/py-0.9.1.tar.gz
 SUNDIALS_PKG=pkgs/sundials-2.3.0.tar.gz
 HDF5_PKG=pkgs/hdf5-1.6.10.tar.bz2
@@ -73,8 +74,10 @@ all: hlib_check .deps_nsim_install python_tools create_bin_links hints
 hlib_check: nsim/interface/extra/lib/libhmatrix-1.3.so
 
 nsim/interface/extra/lib/libhmatrix-1.3.so:
-	bash ./patches/hlib/hlib-untar.sh ./hlib-pkg $(EXPECTED_HLIB_PKG) && \
-	  rm -f .deps_hlib_patch && $(MAKE) .deps_hlib_install; true
+	bash ./patches/hlib/hlib-untar.sh ./hlib-pkg $(EXPECTED_HLIB_PKG); \
+	  if [ $$? -eq 0 ]; \
+	  then rm -f .deps_hlib_patch; $(MAKE) .deps_hlib_install; \
+	  else true; fi
 
 .deps_hlib_patch:
 	cp nsim/hlib/hlibpatch.diff.gz hlib/ && \
@@ -83,8 +86,10 @@ nsim/interface/extra/lib/libhmatrix-1.3.so:
 
 .deps_hlib_configure: .deps_hlib_patch
 	cd hlib && \
-	  ./configure --prefix=$(LOCAL_PATH)/nsim/interface/extra && cd ..
+	  ./configure --prefix=$(LOCAL_PATH)/nsim/interface/extra \
+                  --enable-shared && cd ..
 	touch .deps_hlib_configure
+
 
 .deps_hlib_build: .deps_hlib_configure
 	cd hlib && make && cd ..
@@ -266,7 +271,8 @@ config.status: patches/nsimconfigure
 	 cd $(PETSC_LIB_PATH) && \
 	 $(PYTHON) ./config/configure.py --with-shared \
 	  --with-single-library=1 \
-	  --with-mpi-dir=$(MPICH2_PATH) $(PETSC_MORE_CONFIG_OPTS) && \
+	  --with-mpi-dir=$(MPICH2_PATH) $(PETSC_MORE_CONFIG_OPTS) \
+	  --with-debugging=no && \
 	 cd ..
 	touch .deps_petsc_configure
 
@@ -436,6 +442,16 @@ set_petsc_arch.sh: .deps_petsc_build
 	 $(PYTHON) setup.py install && \
 	 cd ..
 	touch .deps_py_install
+.deps_scipy_untar:
+	rm -rf scipy scipy-?.?.?
+	tar xzvf $(PYTHON_SCIPY_PKG)
+	mv scipy-?.?.? scipy
+	touch .deps_scipy_untar
+ 
+.deps_scipy_install: .deps_scipy_untar
+	. $(EXPORT_PATHS) && \
+	cd scipy && $(PYTHON) setup.py install && cd ..
+	touch .deps_scipy_install
 
 .deps_ipython_untar: .deps_python_install
 	tar xzvf $(IPYTHON_PKG)

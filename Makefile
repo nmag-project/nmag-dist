@@ -20,12 +20,12 @@ NSIMCORETARBALL=http://nmag.soton.ac.uk/nmag/0.1/download/nmag-0.1-core.tar.gz
 # List of packages we are using at the moment
 ATLAS_PKG=pkgs/atlas3.6.0.tar.gz
 LAPACK_PKG=pkgs/lapack.tgz
-OCAML_PKG=pkgs/ocaml-3.09.3.tar.bz2
-OCAMLFINDLIB_PKG=pkgs/findlib-1.1.2pl1.tar.gz
+OCAML_PKG=pkgs/ocaml-3.12.0.tar.bz2
+OCAMLFINDLIB_PKG=pkgs/findlib-1.2.1.tar.gz
 CRYPTOKIT_PKG=pkgs/cryptokit-1.2.tar.gz
 QHULL_PKG=pkgs/qhull-2003.1.tar.gz
-GSL_PKG=pkgs/gsl-1.8.tar.gz
-OCAMLGSL_PKG=pkgs/ocamlgsl-0.4.0.tar.gz
+GSL_PKG=pkgs/gsl-1.14.tar.gz
+OCAMLGSL_PKG=pkgs/ocamlgsl-0.6.0.tar.gz
 MPICH2_PKG=pkgs/mpich2-1.0.4p1.tar.gz
 PETSC_PKG=pkgs/petsc-lite-2.3.3-p15.tar.gz
 PARMETIS_PKG=pkgs/ParMetis-3.1.tar.gz
