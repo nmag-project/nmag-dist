@@ -37,6 +37,7 @@ PYTHON_NUMARRAY_PKG=pkgs/numarray-1.5.2.tar.gz
 PYTHON_PYTABLES_PKG=pkgs/tables-2.1.2.tar.gz
 PYTHON_SCIPY_PKG=pkgs/scipy-0.7.2.tar.gz
 PYTHON_PY_PKG=pkgs/py-0.9.1.tar.gz
+PYTHON_PLY_PKG=pkgs/ply-3.3.tar.gz
 SUNDIALS_PKG=pkgs/sundials-2.3.0.tar.gz
 HDF5_PKG=pkgs/hdf5-1.6.10.tar.bz2
 EXPECTED_HLIB_PKG=HLib-1.3p19.tar.gz
@@ -448,6 +449,20 @@ set_petsc_arch.sh: .deps_petsc_build
 	 $(PYTHON) setup.py install && \
 	 cd ..
 	touch .deps_py_install
+
+.deps_ply_untar:
+	rm -rf ply-?.?
+	tar xzvf $(PYTHON_PLY_PKG)
+	mv ply-?.? ply
+	touch .deps_ply_untar
+
+.deps_ply_install: .deps_python_install .deps_ply_untar
+	. $(EXPORT_PATHS) && \
+	cd ply && \
+	 $(PYTHON) setup.py install && \
+	 cd ..
+	touch .deps_ply_install
+
 .deps_scipy_untar:
 	rm -rf scipy scipy-?.?.?
 	tar xzvf $(PYTHON_SCIPY_PKG)
@@ -503,7 +518,8 @@ nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh export
 	. ./exports.bash && cd nsim && ${MAKE} && cd ..
 	touch .deps_nsim_install
 
-python_tools: .deps_numpy_install .deps_pyvtk_install .deps_pytables_install .deps_ipython_install .deps_py_install
+python_tools: .deps_numpy_install .deps_pyvtk_install .deps_pytables_install \
+ .deps_ipython_install .deps_py_install .deps_ply_install
 
 create_bin_links:
 	@SRC_BINS=`ls nsim/bin`; \
