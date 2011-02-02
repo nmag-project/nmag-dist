@@ -578,23 +578,23 @@ update:
 	(unlink Makefile && tar xzvf nmag-0.1-core.tar.gz)
 	rm -f nmag-0.1 nmag-0.1-core.tar.gz
 
-./nsim/bin/pytest_nsim:
-	make all
+configure-test-suite:
+	(cd nsim/tests/config && ../../bin/nsim --nolog setup.py)
 
-check: ./nsim/bin/pytest_nsim
-	cd nsim; make check
+check: configure-test-suite
+	cd nsim/tests; make check
 
-checkall: ./nsim/bin/pytest_nsim
-	cd nsim; make checkall
+checkall: configure-test-suite
+	cd nsim/tests; make checkall
 
-checkslow: ./nsim/bin/pytest_nsim
-	cd nsim; make checkslow
+checkslow: configure-test-suite
+	cd nsim/tests; make checkslow
 
-checkmpi: ./nsim/bin/pytest_nsim
-	cd nsim; make checkmpi
+checkmpi: configure-test-suite
+	cd nsim/tests; make checkmpi
 
-checkhlib: ./nsim/bin/pytest_nsim
-	cd nsim; make checkhlib
+checkhlib: configure-test-suite
+	cd nsim/tests; make checkhlib
 
 hierarchy:
 	mkdir -p bin etc hlib-pkg include info lib man pkgs share
