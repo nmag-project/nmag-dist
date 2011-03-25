@@ -252,10 +252,12 @@ config.status: patches/nsimconfigure
 	cd mpich2 && make && cd ..
 	touch .deps_mpich2_build
 
-.deps_mpich2_install: .deps_mpich2_build
+.deps_mpich2_install: .deps_mpich2_build config.status
 	cd mpich2 && make install && cd .. && \
-	 [ -f lib/mpich2/lib/libmpi.so ] \
-	   || (cd lib/mpich2/lib && ln -s libmpich.so libmpi.so)
+	 . ./config.status && \
+	   [ -f lib/mpich2/lib/libmpi$$SHLIB_SUFFIX ] \
+	     || (cd lib/mpich2/lib && \
+                 $$LN_S libmpich$$SHLIB_SUFFIX libmpi$$SHLIB_SUFFIX)
 	touch .deps_mpich2_install
 
 .deps_petsc_untar: .deps_python_install
