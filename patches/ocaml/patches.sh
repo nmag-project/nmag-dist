@@ -7,3 +7,7 @@
 cp configure original.configure && \
 sed -e 's/otherlibraries="$otherlibraries graph"/otherlibraries="$otherlibraries"/g' \
     -e 's/powerpc-apple-darwin/*-apple-darwin/g' original.configure > configure
+
+# Patch for binutils 2.21
+cat ../patches/ocaml/fix-binutils-2.21.patch | patch -p1
+
