@@ -29,7 +29,7 @@ OCAMLGSL_PKG=pkgs/ocamlgsl-0.6.0.tar.gz
 MPICH2_PKG=pkgs/mpich2-1.2.1p1.tar.gz
 PETSC_PKG=pkgs/petsc-lite-3.1-p5.tar.gz
 PARMETIS_PKG=pkgs/ParMetis-3.1.1.tar.gz
-PYTHON_PKG=pkgs/Python-2.6.4.tar.bz2
+PYTHON_PKG=pkgs/Python-2.7.2.tar.bz2
 IPYTHON_PKG=pkgs/ipython-0.10.tar.gz
 PYTHON_NUMPY_PKG=pkgs/numpy-1.5.0.tar.gz
 PYTHON_PYVTK_PKG=pkgs/PyVTK-0.latest.tar.gz
@@ -39,7 +39,7 @@ PYTHON_SCIPY_PKG=pkgs/scipy-0.7.2.tar.gz
 PYTHON_PY_PKG=pkgs/py-0.9.1.tar.gz
 PYTHON_PLY_PKG=pkgs/ply-3.3.tar.gz
 SUNDIALS_PKG=pkgs/sundials-2.3.0.tar.gz
-HDF5_PKG=pkgs/hdf5-1.6.10.tar.bz2
+HDF5_PKG=pkgs/hdf5-1.8.7.tar.bz2
 EXPECTED_HLIB_PKG=HLib-1.3p19.tar.gz
 EXPECTED_HLIB_VER="1.3p19"
 
