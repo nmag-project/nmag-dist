@@ -496,9 +496,9 @@ exports.bash: set_petsc_arch.sh
 $(NSIM_LDFLAGS_FILE): exports.bash
 	cp exports.bash $@
 
-nsim/config/configuration.inc: nsim/config/configure.py set_petsc_arch.sh \
+nsim/config/configuration.inc: nsim/configure.py set_petsc_arch.sh \
  exports.bash .deps_numpy_install
-	. ./set_petsc_arch.sh && . exports.bash && cd nsim/config && \
+	. ./set_petsc_arch.sh && . exports.bash && cd nsim && \
 	 $(PYTHON) configure.py \
 	  --libdir=$(LOCAL_LIB) \
 	  --includedir=$(LOCAL_INCLUDE) \
