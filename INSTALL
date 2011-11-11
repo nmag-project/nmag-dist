@@ -265,6 +265,15 @@ On Mac OS X, fink_ can be used to install the additional tools needed by
 ``nsim`` (such as ``gawk``, for example).
 
 
+Ubuntu
+++++++
+
+Required packages include (Ubuntu 10.11)
+
+``m4`` ``gawk`` ``zlib1g-dev`` ``g++`` ``libblas-dev`` 
+``liblapack-dev`` ``readline-common`` ``libreadline-dev`` ``make``
+
+
 Platforms that compile Nmag from source
 ---------------------------------------
 
