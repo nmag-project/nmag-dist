@@ -81,7 +81,7 @@ nsim/interface/extra/lib/libhmatrix-1.3.so:
 	  else true; fi
 
 .deps_hlib_patch:
-	cp nsim/hlib/hlibpatch.diff.gz hlib/ && \
+	cp nsim/config/hlibpatch.diff.gz hlib/ && \
 	  (cd hlib && gunzip -c hlibpatch.diff.gz | patch -p1) && \
 	touch .deps_hlib_patch
 
