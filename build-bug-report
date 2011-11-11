@@ -46,9 +46,9 @@ myls $NMAGROOT/nsim/interface/extra/lib
 # See what libraries the Nsim executable is actually linking to
 # (useful to see if there are some linking problems or conflicts between libs)
 echo "Getting ldd for nsim executable"
-NSIM_EXEC=$NMAGROOT/nsim/pyfem3/pyfem3
+NSIM_EXEC=$NMAGROOT/nsim/src/nsimexec
 if [ -x $NSIM_EXEC ]; then
-  (. $NMAGROOT/exports.bash && ldd $NMAGROOT/nsim/pyfem3/pyfem3) \
+  (. $NMAGROOT/exports.bash && ldd $NSIM_EXEC) \
       >> $BUGREPORT/nsim.ldd
 else
   echo "Nsim executable ($NSIM_EXEC) not found"
