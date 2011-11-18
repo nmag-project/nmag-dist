@@ -68,7 +68,7 @@ fi
 # Copy the logs and other useful files
 echo "Getting nsim configuration and compilation logs"
 FILES="export_paths.sh exports.bash set_petsc_arch.sh nsim/bin/ldflags.bash \
-       nsim/config/configuration.inc nsim/bin/ldflags.bash Makefile \
+       nsim/interface/nsim/configuration.py nsim/bin/ldflags.bash Makefile \
        hdf5/config.log lib/petsc/configure.log mpich2/config.log \
        python/config.log sundials/config.log gsl/config.log hlib/config.log \
        nsim/compilation.log qhull/config.log"

@@ -518,7 +518,7 @@ nsim/config/configuration.inc: nsim/configure.py set_petsc_arch.sh \
  .deps_parmetis_install .deps_python_install \
  .deps_sundials_install \
  exports.bash $(NSIM_LDFLAGS_FILE) nsim/config/configuration.inc
-	. ./exports.bash && cd nsim && ${MAKE} all-log && cd ..
+	. ./exports.bash && cd nsim && ${MAKE} all-log install && cd ..
 	touch .deps_nsim_install
 
 python_tools: .deps_numpy_install .deps_pyvtk_install .deps_pytables_install \
