@@ -44,5 +44,6 @@ c++ --version >/dev/null 2>/dev/null || { $ECHO "c++ $NOT_FOUND"; $STOP; }
 bash --version >/dev/null 2>/dev/null || { $ECHO "bash $NOT_FOUND"; $STOP; }
 gawk --version >/dev/null 2>/dev/null || { $ECHO "gawk $NOT_FOUND"; $STOP; }
 m4 --version >/dev/null 2>/dev/null || { $ECHO "m4 $NOT_FOUND"; $STOP; }
+patch --version >/dev/null 2>/dev/null || { $ECHO "patch $NOT_FOUND"; $STOP; }
 
 $ECHO "Preliminary checks were successfully completed."

@@ -1,18 +1,17 @@
-# This is the Makefile for local installation of the nsim simulator
-# and all the required packages. This Makefile installs everything
-# you need to run nsim properly from a local folder. This means
-# that you don't need to have root priviledges to use it:
-# all will be done inside the directory which contains this
-# Makefile. This is useful if you want to run nsim on a cluster
-# (and you have not the root password!).
-# Remember however that a lot of things will be installed
-# even if you already have installed them system-wide.
-# This usually takes 20-30 minutes on quite new machines.
-# See the file README and INSTALL for more info.
-# Matteo Franchin, 16 Mar 2007
+# Nmag micromagnetic simulator
+# Copyright (C) 2011 University of Southampton
+# Hans Fangohr, Thomas Fischbacher, Matteo Franchin and others
+#
+# WEB:     http://nmag.soton.ac.uk
+# CONTACT: nmag@soton.ac.uk
+#
+# AUTHOR(S) OF THIS FILE: Matteo Franchin
+# LICENSE: GNU General Public License 2.0
+#          (see <http://www.gnu.org/licenses/>)
 
 # We want bash to be our shell!
 SHELL=bash
+PATCH=patch
 
 # Where to find the newest nsim 0.1 core tarball
 NSIMCORETARBALL=http://nmag.soton.ac.uk/nmag/0.1/download/nmag-0.1-core.tar.gz
@@ -64,13 +63,12 @@ COPTFLAGS=-O3 #-m32 -march=athlon64 -msse2 -m3dnow -mfpmath=sse"
 PETSC_MORE_CONFIG_OPTS=-COPTFLAGS=$(COPTFLAGS) -CXXOPTFLAGS=$(COPTFLAGS)
 # --with-blas-lapack-dir=$(LOCAL_PATH)/atlas/lib/Linux_HAMMER32SSE2_2
 
-PATCH=patch
-
 DIST_FILES=README INSTALL TODO patches/nsimconfigure Makefile bin etc include \
  info lib man share patches nsim pkgs
 
-.PHONY: all anyway uninstall clean ocaml dist python_tools create-bin-links \
-  check checkall check-all hints update hlib-check deps-check hierarchy
+.PHONY: all anyway uninstall clean dist python_tools create-bin-links \
+  check checkall check-all hints update hlib-check deps-check hierarchy \
+  rebuild
 
 all: hlib-check deps-check anyway
 
@@ -507,7 +505,7 @@ exports.bash: set_petsc_arch.sh
 $(NSIM_LDFLAGS_FILE): exports.bash
 	cp exports.bash $@
 
-nsim/config/configuration.inc: nsim/configure.py set_petsc_arch.sh \
+nsim/interface/nsim/configuration.py: nsim/configure.py set_petsc_arch.sh \
  exports.bash .deps_numpy_install
 	. ./set_petsc_arch.sh && . exports.bash && cd nsim && \
 	 $(PYTHON) configure.py \
@@ -528,9 +526,13 @@ nsim/config/configuration.inc: nsim/configure.py set_petsc_arch.sh \
  .deps_mpich2_install .deps_petsc_setup \
  .deps_parmetis_install .deps_python_install \
  .deps_sundials_install \
- exports.bash $(NSIM_LDFLAGS_FILE) nsim/config/configuration.inc
+ exports.bash $(NSIM_LDFLAGS_FILE) nsim/interface/nsim/configuration.py
 	. ./exports.bash && cd nsim && ${MAKE} all-log install && cd ..
 	touch .deps_nsim_install
+
+rebuild:
+	rm -f nsim/interface/nsim/configuration.py
+	$(MAKE) .deps_nsim_install
 
 python_tools: .deps_numpy_install .deps_pyvtk_install .deps_pytables_install \
  .deps_ipython_install .deps_py_install .deps_ply_install
@@ -551,9 +553,9 @@ create-bin-links:
 	fi
 
 uninstall: clean
-	rm -rf bin/* etc/* lib/* nsim/interface/extra/* include/* share/* man/* \
-	 info/* set_petsc_arch.sh exports.bash export_paths.sh config.sh \
-	 config.status
+	rm -rf bin/* etc/* lib/* nsim/interface/extra/* include/* share/* \
+	 man/* info/* set_petsc_arch.sh exports.bash export_paths.sh \
+	config.sh config.status
 
 clean:
 	rm -rf ocaml findlib cryptokit qhull gsl ocamlgsl mpich2 \
