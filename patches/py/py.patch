@@ -1,0 +1,10 @@
+diff -Naur py-0.9.1/py/test/terminal/terminal.py py/py/test/terminal/terminal.py
+--- py-0.9.1/py/test/terminal/terminal.py	2008-03-28 10:40:38.000000000 +0000
++++ py/py/test/terminal/terminal.py	2011-12-01 17:47:41.509806144 +0000
+@@ -286,5 +286,5 @@
+     v = py.std.sys.version_info
+     try:
+         return "%s.%s.%s-%s-%s" % v
+-    except ValueError:
++    except Exception:
+         return str(v)

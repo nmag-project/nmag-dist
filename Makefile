@@ -64,6 +64,8 @@ COPTFLAGS=-O3 #-m32 -march=athlon64 -msse2 -m3dnow -mfpmath=sse"
 PETSC_MORE_CONFIG_OPTS=-COPTFLAGS=$(COPTFLAGS) -CXXOPTFLAGS=$(COPTFLAGS)
 # --with-blas-lapack-dir=$(LOCAL_PATH)/atlas/lib/Linux_HAMMER32SSE2_2
 
+PATCH=patch
+
 DIST_FILES=README INSTALL TODO patches/nsimconfigure Makefile bin etc include \
  info lib man share patches nsim pkgs
 
@@ -87,7 +89,7 @@ nsim/interface/extra/lib/libhmatrix-1.3.so:
 
 .deps_hlib_patch:
 	cp nsim/config/hlibpatch.diff.gz hlib/ && \
-	  (cd hlib && gunzip -c hlibpatch.diff.gz | patch -p1) && \
+	  (cd hlib && gunzip -c hlibpatch.diff.gz | $(PATCH) -p1) && \
 	touch .deps_hlib_patch
 
 .deps_hlib_configure: .deps_hlib_patch
@@ -314,7 +316,7 @@ set_petsc_arch.sh: .deps_petsc_build
 
 .deps_parmetis_patch: config.status .deps_parmetis_untar
 	cat patches/parmetis/Makefile >> parmetis/Makefile
-	# This sed scripts won't work if the local path contains commas.
+	#This sed scripts won't work if the local path contains commas.
 	# Normally this should't happen but one never knows...
 	. ./config.status && \
 	 sed -e "s/__SHLIB_SUFFIX__/$$SHLIB_SUFFIX/g" \
@@ -450,7 +452,11 @@ set_petsc_arch.sh: .deps_petsc_build
 	mv py-* py
 	touch .deps_py_untar
 
-.deps_py_install: .deps_py_untar $(EXPORT_PATHS)
+.deps_py_patch: .deps_py_untar
+	cd py && $(PATCH) -p1 < ../patches/py/py.patch
+	touch .deps_py_patch
+
+.deps_py_install: .deps_py_patch $(EXPORT_PATHS)
 	.  $(EXPORT_PATHS) && \
 	cd py && \
 	 $(PYTHON) setup.py install && \
