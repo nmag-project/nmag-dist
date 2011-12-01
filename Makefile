@@ -64,18 +64,23 @@ COPTFLAGS=-O3 #-m32 -march=athlon64 -msse2 -m3dnow -mfpmath=sse"
 PETSC_MORE_CONFIG_OPTS=-COPTFLAGS=$(COPTFLAGS) -CXXOPTFLAGS=$(COPTFLAGS)
 # --with-blas-lapack-dir=$(LOCAL_PATH)/atlas/lib/Linux_HAMMER32SSE2_2
 
-DIST_FILES=README INSTALL TODO patches/nsimconfigure Makefile bin etc include info lib man \
- share patches nsim pkgs
+DIST_FILES=README INSTALL TODO patches/nsimconfigure Makefile bin etc include \
+ info lib man share patches nsim pkgs
 
-.PHONY: all uninstall clean ocaml dist python_tools create_bin_links check checkall check-all
-.PHONY: export_paths hints update _internal_update_part2 hlib_check hierarchy
+.PHONY: all anyway uninstall clean ocaml dist python_tools create-bin-links \
+  check checkall check-all hints update hlib-check deps-check hierarchy
 
-all: hlib_check .deps_nsim_install python_tools create_bin_links hints
+all: hlib-check deps-check anyway
 
-hlib_check: nsim/interface/extra/lib/libhmatrix-1.3.so
+anyway: .deps_nsim_install python_tools create-bin-links hints
+
+hlib-check: nsim/interface/extra/lib/libhmatrix-1.3.so
+
+deps-check:
+	@$(SHELL) ./patches/check-deps.sh
 
 nsim/interface/extra/lib/libhmatrix-1.3.so:
-	bash ./patches/hlib/hlib-untar.sh ./hlib-pkg $(EXPECTED_HLIB_PKG); \
+	@$(SHELL) ./patches/hlib/hlib-untar.sh ./hlib-pkg $(EXPECTED_HLIB_PKG); \
 	  if [ $$? -eq 0 ]; \
 	  then rm -f .deps_hlib_patch; $(MAKE) .deps_hlib_install; \
 	  else true; fi
@@ -524,7 +529,7 @@ nsim/config/configuration.inc: nsim/configure.py set_petsc_arch.sh \
 python_tools: .deps_numpy_install .deps_pyvtk_install .deps_pytables_install \
  .deps_ipython_install .deps_py_install .deps_ply_install
 
-create_bin_links:
+create-bin-links:
 	@SRC_BINS=`ls nsim/bin`; \
 	if [ -d ./bin ]; then \
 	  cd bin; \
