@@ -1,12 +1,16 @@
-===================================================
-GUIDE FOR INSTALLING ``nsim``/``nmag`` FROM SOURCES
-===================================================
+
+
+==================================================================
+GUIDE FOR INSTALLING ``nsim``/``nmag`` FROM SOURCES (big tar ball)
+==================================================================
+
+.. contents:: Table of Contents Installing Nmag from big tarball
 
 Installation requirements
 -------------------------
 
-Building ``nmag`` will require approximatively 1 GB of harddisk space.
-After compilation and issuing ``make clean``, ~500 MB will be
+Building ``nmag`` will require approximatively 1.4 GB of harddisk space.
+After compilation and issuing ``make clean``, ~550 MB will be
 used. (The reason for this large footprint is that the ``nmag``
 archive tries to make very few assumptions on pre-installed software
 and hence has to bring along all the packages it depends on. This is
@@ -31,13 +35,14 @@ The following software packages have to be available on the build system:
 
 On Ubuntu 11.10 you can install these requirements using::
 
-  apt-get install readline-dev g++ libblas-dev libreadline-dev make m4 gawk zlib1g-dev readline-common liblapack-dev
+  apt-get install readline-dev g++ libblas-dev libreadline-dev \
+    make m4 gawk zlib1g-dev readline-common liblapack-dev
 
 
 Download
 --------
 
-Download the tarball (with a name such as nmag-0.2.0-all.tar.gz) from http://nmag.soton.ac.uk. (try `this directory <http://nmag.soton.ac.uk/nmag/0.2/download/><__ to see available tar balls.
+Download the tarball (with a name such as nmag-0.2.0-all.tar.gz) from http://nmag.soton.ac.uk. (try `this directory <http://nmag.soton.ac.uk/nmag/0.2/download/all>`__ to see available tar balls.
 
 
 Installation
@@ -342,7 +347,8 @@ packages to be installed:
 
 for example through executing::
 
-  apt-get install readline-dev g++ libblas-dev libreadline-dev make m4 gawk zlib1g-dev readline-common liblapack-dev
+  apt-get install readline-dev g++ libblas-dev libreadline-dev \
+    make m4 gawk zlib1g-dev readline-common liblapack-dev
 
 
 Mac OS X
@@ -352,10 +358,10 @@ On Mac OS X, fink_ can be used to install the additional tools needed by
 ``nsim`` (such as ``gawk``, for example).
 
 
-Platforms that compile Nmag 0.1 from source
--------------------------------------------
+Platforms that compile Nmag from source
+---------------------------------------
 
-The software has been compiled successfully (and without intervention)
+The Nmag 0.1 software has been compiled successfully (and without intervention)
 on the following systems:
 
    - on Windows XP SP3 (Intel Core 2) through andLinux based on Ubuntu 9.04;
@@ -400,7 +406,18 @@ Platforms that needed a little help:
      on intel Atom processor. The user reports that the 'diffutils'
      package on the Linpus is broken and stopped the installation. He
      downloaded the original diffutils from the GNU webpage, installed
-     this. Afterwards, Nmag compile automatically from source (Dec 2008).
+     this. Afterwards, Nmag compiled automatically from source (Dec 2008).
+
+
+The Nmag 0.2 software has been compiled successfully (and without intervention)
+on the following systems:
+
+   - Ubuntu 11.10 (Intel 32 and 64 bit)
+
+   - Ubuntu 11.04
+
+   - Mac OS X 10.6 (Snow Leopard)
+
 
 
 .. _FAQ:
