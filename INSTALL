@@ -26,6 +26,7 @@ The following software packages have to be available on the build system:
 - Libraries for fast linear algebra: ``blas``, ``lapack``;
 - ``gawk`` (GNU awk);
 - ``readline`` libraries and headers (for ``python``, ``ipython``, ``nsim_i``).
+- zlib / libz (package zlib1g-dev on Ubuntu/Debian)
 
 
 On Ubuntu 11.10 you can install these requirements using::
@@ -74,7 +75,18 @@ If this produces a prompt::
 
   >>>
 
-then ``nsim`` was compiled successfully from source.
+then ``nsim`` was compiled successfully from source. (However, the readline-dev libraries were missing, and thus the prompt is not an Interactive Python prompt.)
+
+If::
+
+  $ ./nsim/bin/nsim
+
+produces a prompt like::
+
+  In [1]: 
+
+then readline-dev has been found during the compilation, and the prompt resembles the IPython prompt.
+
 (The interpreter can be left, as usual, by pressing Control+d,
 which will send an "End of File" command on its input stream.)
 
@@ -91,7 +103,7 @@ to adjust the shell's $PATH environment variable appropriately.
 For the widespread ``bash`` shell, this can be done with these
 commands::
 
-  $ cd nmag-0.1 # enter the main directory
+  $ cd nmag-0.2.0 # enter the main installation directory
   $ export PATH=`pwd`/nsim/bin:$PATH
 
 After these adjustments, ``nsim`` can be started with the command
@@ -108,10 +120,12 @@ will give information on how to adjust ``.bashrc``::
   $ cd nmag-0.1
   $ make hints
 
+will produce output similar to ::
+
   To be able to launch nsim more easily, append the following line
   to the end of your shell configuration file (for BASH users
   this file is .bashrc and can be found on your home directory ~/.bashrc):
-  export PATH="/home/me/nmag-0.1/nsim/bin:$PATH"
+  export PATH="/home/me/nmag-0.2.0/nsim/bin:$PATH"
 
 Note that there are other shells which behave differently from bash,
 such as in particular cshell or tcshell. For these in particular, the
@@ -135,11 +149,12 @@ This should take less than one minute to complete. If the output finishes with :
 
   ======== tests finished: k passed, l skipped in XX.XX seconds ==========
 
-(where k and l are integers), then all seems to be well. Congratulations.
+(where k and l are integers), then all seems to be
+well. Congratulations. While you can attempt to run the tests below,
+this should not be necessary.
 
-
-The l tests that have been skipped, take more computation time (of the
-order of 2 hours). To test them as well, one can use::
+The l tests that have been skipped, take a bit more computation time (of the
+order of 1 hour). To test them as well, one can use::
 
   $ cd nmag-0.1
   $ make checkslow
@@ -150,13 +165,80 @@ If, after completion of either of these checks, the last line reads::
   ======== tests finished: k passed, m failed, l skipped in XX.XX seconds ========
 
 then m tests have failed. You will also get further debug output
-following this summary line. Your best bet is to get in contact with
-the nmag team.
+following this summary line. 
 
 Other available test targets are ``make checkmpi`` and ``make
 checkhlib``. Please read the corresponding sections in the manual
-before running those (they will fail unless the right environment has
-been set up).
+before running those  -- they will fail unless the right environment has
+been set up.
+
+
+Common test failure
+-------------------
+
+The following messages are typical for the output of ``make check`` if the zlib library was not present *during the compilation of nmag*. (This relates to the pytables python module using hdf5 which in turn relies on zlib to read and write compressed data.)
+
+::
+
+  regression/nmesh/import/gmsh1_0/test_gmsh1_0_import.py[2] .F
+  ../../../nsim/mpi/test_mpi_hello.py[2] ss
+  ../../../unit/nmeshmirror/test_nmeshmirror.py[1] .
+  ../../../unit/pycaml/test_refcount.py[1] .
+  ../../../unit/pycaml/test_trial.py[2] ..
+  ../../nmag/bigbar/mpi/test_slow_mpi_bigbar.py[2] ss
+  ../../nmag/bigbar/nmag4/test_slow_bigbar.py[2] ss
+  ../../nmag/bugs/twohmx/test_hlib_twohmx.py[1] s
+  ../../nmag/demag_twomat/test_slow_bug_ticket175.py[1] s
+  ../../nmag/nmagprobe/test_all.py[1] F
+  ../../nmag/pymodules/test_python_modules_installed.py[1] .
+  ../../nmag/restart/test_restart.py[1] .
+  ../../nmesh/import/gmsh1_0/test_gmsh1_0_import.py[2] .F
+  ../../../nsim/mpi/test_mpi_hello.py[2] ss
+  ../../../../unit/nmeshmirror/test_nmeshmirror.py[1] .
+  ../../../unit/pycaml/test_refcount.py[1] .
+  ../../../unit/pycaml/test_trial.py[2] ..
+
+  <snip>
+
+  % (complib, default_complib), FiltersWarning )
+  HDF5-DIAG: Error detected in HDF5 (1.8.7) thread 0:
+  #000: H5Dio.c line 174 in H5Dread(): can't read data
+    major: Dataset
+    minor: Read failed
+  #001: H5Dio.c line 448 in H5D_read(): can't read data
+    major: Dataset
+    minor: Read failed
+  #002: H5Dchunk.c line 1729 in H5D_chunk_read(): unable to read raw data chunk
+    major: Low-level I/O
+    minor: Read failed
+  #003: H5Dchunk.c line 2760 in H5D_chunk_lock(): data pipeline read failed
+    major: Data filters
+    minor: Filter operation failed
+  #004: H5Z.c line 1094 in H5Z_pipeline(): required filter is not registered
+    major: Data filters
+    minor: Read failed
+  Closing remaining open files: /home/test/local/nmag-0.1.1/nsim/tests/mesh/s3n1ellipsoid.nmesh.h5... done
+  make[3]: *** [run_dat.h5] Error 1
+  make[2]: *** [all] Error 2
+
+  <snip>
+ 
+          #check that file name exists;
+          if not os.path.exists(filename):
+  E           raise NmeshUserError,"file '%s' does not exist" % filename
+  >           NmeshUserError: file 'sphere2.nmesh' does not exist
+  
+  [/home/test/local/nmag-0.1.1/nsim/interface/nmeshlib/lib1.py:853]
+  - - - - - - - -  test_gmsh_1_0_import_gzipped: recorded stdout - - - - - - - - -
+         root:2011-12-07 11:24:05,242 nmesh_exceptions.py    8 CRITICAL Exception type: NmeshUserError 
+         root:2011-12-07 11:24:05,243 nmesh_exceptions.py    9 CRITICAL Exception msg : file 'sphere2.nmesh' does not exist 
+  
+  ________________________________________________________________________________
+  ======= tests finished: 52 passed, 4 failed, 16 skipped in 18.17 seconds =======
+         root:2011-12-07 11:24:05,664   shell.py   85 WARNING SystemExit with exit_status=1
+  make[1]: *** [check] Error 1
+  make[1]: Leaving directory `/home/test/local/nmag-0.1.1/nsim/tests'
+
 
 
 
@@ -249,8 +331,8 @@ them.
 The same holds for the ``lapack`` and the ``blas`` linear algebra
 libraries.
 
-Debian
-++++++
+Debian/Ubuntu
++++++++++++++
 
 A fresh installation on debian (etch) requires the following extra
 packages to be installed:
@@ -258,7 +340,10 @@ packages to be installed:
 ``m4`` ``gawk`` ``zlib1g-dev`` ``g++`` ``libblas-dev`` 
 ``liblapack-dev`` ``readline-common`` ``libreadline-dev`` ``make``
 
-(This list needs updating for Lenny.)
+for example through executing::
+
+  apt-get install readline-dev g++ libblas-dev libreadline-dev make m4 gawk zlib1g-dev readline-common liblapack-dev
+
 
 Mac OS X
 ++++++++
@@ -267,17 +352,8 @@ On Mac OS X, fink_ can be used to install the additional tools needed by
 ``nsim`` (such as ``gawk``, for example).
 
 
-Ubuntu
-++++++
-
-Required packages include (Ubuntu 10.11)
-
-``m4`` ``gawk`` ``zlib1g-dev`` ``g++`` ``libblas-dev`` 
-``liblapack-dev`` ``readline-common`` ``libreadline-dev`` ``make``
-
-
-Platforms that compile Nmag from source
----------------------------------------
+Platforms that compile Nmag 0.1 from source
+-------------------------------------------
 
 The software has been compiled successfully (and without intervention)
 on the following systems:
@@ -325,10 +401,6 @@ Platforms that needed a little help:
      package on the Linpus is broken and stopped the installation. He
      downloaded the original diffutils from the GNU webpage, installed
      this. Afterwards, Nmag compile automatically from source (Dec 2008).
-
-
-Please let us know (by email to `nsim developers`_) if you have
-compiled it on other system configurations.
 
 
 .. _FAQ:
@@ -411,7 +483,7 @@ some time).
 Can I free some (unused) disk space after compiling nsim from source?
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You have compiled ``nsim`` from source and it occupies more than 1 GB
+You have compiled ``nsim`` from source and it occupies more about 1.4 GB
 of space on your hard-drive. Some directories which were necessary for
 the compilation can be removed after the compilation has finished. The
 command is::
@@ -419,7 +491,7 @@ command is::
       $ cd nmag-0.1
       $ make clean
 
-This will free about 0.5 GB.
+This will free about 0.9 GB.
 
 Binary files in nmag-0.1/bin not working
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -475,9 +547,6 @@ directory, not ``nmag-0.1/nsim``.  These commands will configure
 ``nsim`` by running ``nmag-0.1/config/configure.py`` and passing to it
 the proper command line options to specify the paths of the required
 libraries.
-
-For other info and hints write a mail to the `nsim developers`_,
-who are happy to help you!
 
 I get an HDF5-DIAG error message when trying to run an example
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
