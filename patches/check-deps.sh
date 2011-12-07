@@ -14,9 +14,10 @@ DPKG_ARCHITECTURE=dpkg-architecture
 $ECHO "Checking dependencies..."
 
 # First, we check for Debian and the Multiarch problem.
-PLEASE_CHECK_DEPS="Note that a list of all the packages required in order\
- to compile Nmag is available at $NMAG_WEBSITE_DEPS. If you want to continue\
- anyway you can try 'make anyway', but failures are likely to occur."
+PLEASE_CHECK_DEPS="A list of all the packages required in order\
+ to compile Nmag is available at $NMAG_WEBSITE_DEPS. We cannot\
+ detect all of them. If you want to continue\
+ anyway you can try 'make anyway'."
 
 $GREP_Q_I -i Ubuntu $ETC_ISSUE && DEBIAN_LIKE=yes
 $GREP_Q_I -q -i Debian $ETC_ISSUE && DEBIAN_LIKE=yes
@@ -26,8 +27,8 @@ if test "$DEBIAN_LIKE" = "yes"; then
   $DPKG_ARCHITECTURE >/dev/null 2>/dev/null || \
     { $ECHO "Error: cannot find the executable dpkg-architecture, which is" \
       "necessary to compile Nmag in Debian or Ubuntu. Please, install the " \
-      "package dpkg-dev with your package manager, or - if your system is " \
-      "neither Debian nor Ubuntu - contact the Nmag developers." \
+      "package dpkg-dev with your package manager if this is a " \
+      "Debian or Ubuntu system. Otherwise:" \
       "$PLEASE_CHECK_DEPS"; $STOP; }
 
 else
