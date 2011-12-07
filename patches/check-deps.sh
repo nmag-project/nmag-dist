@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NMAG_WEBSITE_DEPS="http://nmag.soton.ac.uk/nmag/0.1/install/install_a.html"
+NMAG_WEBSITE_DEPS="http://nmag.soton.ac.uk/nmag/0.2/install/install_a.html"
 
 GREP_Q_I="grep -q -i"
 ECHO="echo"
