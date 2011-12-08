@@ -69,7 +69,7 @@ and run ``make``::
 This command will build ``nsim`` and a number of other required
 packages.
 
-All the software is installed inside the directory ``nmag-0.1``,
+All the software is installed inside the directory ``nmag-0.2.0``,
 so root privileges are not required (see `Setting up the environment`_).
 
 If all goes well, nsim can be started once the 'make' command has completed::
@@ -122,7 +122,7 @@ command file ``.bashrc``.
 Executing the command ``make hints`` in the ``nsim`` build directory
 will give information on how to adjust ``.bashrc``::
 
-  $ cd nmag-0.1
+  $ cd nmag-0.2.0
   $ make hints
 
 will produce output similar to ::
@@ -147,7 +147,7 @@ everything seems to work.
 
 The test can be run by calling::
 
-  $ cd nmag-0.1
+  $ cd nmag-0.2.0
   $ make check
 
 This should take less than one minute to complete. If the output finishes with ::
@@ -161,7 +161,7 @@ this should not be necessary.
 The l tests that have been skipped, take a bit more computation time (of the
 order of 1 hour). To test them as well, one can use::
 
-  $ cd nmag-0.1
+  $ cd nmag-0.2.0
   $ make checkslow
 
 
@@ -222,7 +222,7 @@ The following messages are typical for the output of ``make check`` if the zlib 
   #004: H5Z.c line 1094 in H5Z_pipeline(): required filter is not registered
     major: Data filters
     minor: Read failed
-  Closing remaining open files: /home/test/local/nmag-0.1.1/nsim/tests/mesh/s3n1ellipsoid.nmesh.h5... done
+  Closing remaining open files: /home/test/local/nmag-0.2.0/nsim/tests/mesh/s3n1ellipsoid.nmesh.h5... done
   make[3]: *** [run_dat.h5] Error 1
   make[2]: *** [all] Error 2
 
@@ -233,7 +233,7 @@ The following messages are typical for the output of ``make check`` if the zlib 
   E           raise NmeshUserError,"file '%s' does not exist" % filename
   >           NmeshUserError: file 'sphere2.nmesh' does not exist
   
-  [/home/test/local/nmag-0.1.1/nsim/interface/nmeshlib/lib1.py:853]
+  [/home/test/local/nmag-0.2.0/nsim/interface/nmeshlib/lib1.py:853]
   - - - - - - - -  test_gmsh_1_0_import_gzipped: recorded stdout - - - - - - - - -
          root:2011-12-07 11:24:05,242 nmesh_exceptions.py    8 CRITICAL Exception type: NmeshUserError 
          root:2011-12-07 11:24:05,243 nmesh_exceptions.py    9 CRITICAL Exception msg : file 'sphere2.nmesh' does not exist 
@@ -242,7 +242,7 @@ The following messages are typical for the output of ``make check`` if the zlib 
   ======= tests finished: 52 passed, 4 failed, 16 skipped in 18.17 seconds =======
          root:2011-12-07 11:24:05,664   shell.py   85 WARNING SystemExit with exit_status=1
   make[1]: *** [check] Error 1
-  make[1]: Leaving directory `/home/test/local/nmag-0.1.1/nsim/tests'
+  make[1]: Leaving directory `/home/test/local/nmag-0.2.0/nsim/tests'
 
 
 
@@ -261,7 +261,7 @@ The following messages are typical for the output of ``make check`` if the zlib 
   The script runs a basic simulation example, which should bring up
   most unresolved problems::
   
-    $ cd nmag-0.1
+    $ cd nmag-0.2.0
     $ cd nsim/tests/regression/nmag/bigbar
     $ make check
   
@@ -287,12 +287,12 @@ the bare source tree. (The name ``uninstall`` may seem strange at
 first, as this way of building ``nsim`` does not install anything in
 system directories such as ``/usr/lib``, but this is justified as we
 recursively call ``make uninstall`` on all the packages ``nsim``
-depends on which will be installed into a ``nmag-0.1`` subdirectory.)
+depends on which will be installed into a ``nmag-0.2.0`` subdirectory.)
 
 To completely clean nmag from the system, it is sufficient to simply
-remove the ``nmag-0.1`` directory::
+remove the ``nmag-0.2.0`` directory::
 
-  $ rm -rf nmag-0.1
+  $ rm -rf nmag-0.2.0
 
 The important point to remember is that the ``nmag``/``nsim``
 installation lives entirely within this directory and does not touch
@@ -471,7 +471,7 @@ and then recompile from scratch.
 This is a short-cut to recompile just the python interpreter
 (i.e. the readline-dependent part)::
 
-  $ cd nmag-0.1
+  $ cd nmag-0.2.0
   $ rm -rf .deps_python_* python/
   $ make .deps_python_install
   $ make --dry-run | grep touch | sh
@@ -488,7 +488,7 @@ Normally there should be no need to recompile the ``nsim`` package.
 If for some reasons you want to do so, you can issue the following
 commands::
 
-  $ cd nmag-0.1
+  $ cd nmag-0.2.0
   $ make uninstall
   $ make
 
@@ -505,16 +505,16 @@ of space on your hard-drive. Some directories which were necessary for
 the compilation can be removed after the compilation has finished. The
 command is::
 
-      $ cd nmag-0.1
+      $ cd nmag-0.2.0
       $ make clean
 
 This will free about 0.9 GB.
 
-Binary files in nmag-0.1/bin not working
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Binary files in nmag-0.2.0/bin not working
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The installation of ``nsim`` produces a number of executables in the
-``nmag-0.1/bin`` directory. When you try to run some of these, they do
+``nmag-0.2.0/bin`` directory. When you try to run some of these, they do
 not necessarily work properly. Do you need to be concerned that there
 is something wrong with the installation?
 
@@ -524,15 +524,15 @@ etc.) therefore the operating system needs to be instructed where
 to find executables, libraries, etc.
 
 ``nsim`` does that by calling the shell script
-``nmag-0.1/exports.bash``.
+``nmag-0.2.0/exports.bash``.
 
 If (for some strange reason) you want to execute the binary files
-under ``.../nmag-0.1/bin``, these definitions have to be pre-loaded
+under ``.../nmag-0.2.0/bin``, these definitions have to be pre-loaded
 into the shell. For example, to start the Objective Caml interpreter
 that is compiled as part of the ``nsim`` installation from source, you
 could use::
 
-  $ cd nmag-0.1
+  $ cd nmag-0.2.0
   $ . exports.bash
   $ ./bin/ocaml
 
@@ -546,7 +546,7 @@ This should not be necessary for normal users. If you are a developer
 and you are extending the ``nsim`` OCaml core, then this is what you
 need::
 
-  $ cd nmag-0.1
+  $ cd nmag-0.2.0
   $ . exports.bash
   $ cd nsim # enter the nsim source directory
   $ make
@@ -555,13 +555,13 @@ These commands will only compile ``nsim``, without reconfiguring it.
 If you want to reconfigure and recompile ``nsim`` use the following
 commands::
 
-  $ cd nmag-0.1
+  $ cd nmag-0.2.0
   $ rm nsim/config/configuration.inc
   $ make
   
-Note that the ``make`` command is used from the main ``nmag-0.1``
-directory, not ``nmag-0.1/nsim``.  These commands will configure
-``nsim`` by running ``nmag-0.1/config/configure.py`` and passing to it
+Note that the ``make`` command is used from the main ``nmag-0.2.0``
+directory, not ``nmag-0.2.0/nsim``.  These commands will configure
+``nsim`` by running ``nmag-0.2.0/config/configure.py`` and passing to it
 the proper command line options to specify the paths of the required
 libraries.
 
@@ -582,11 +582,11 @@ content. In particular, it seems that Matlab provides it's own
 actual ``libz``.
 
 A workaround is to copy the right ``libz`` (a file like
-``/usr/lib/libz.so.*``) to the ``nmag-0.1/lib`` directory. It
+``/usr/lib/libz.so.*``) to the ``nmag-0.2.0/lib`` directory. It
 seems prudent to also copy the symbolic links to this
 library, for example with::
 
-  $ cp /usr/lib/libz.so.* nmag-0.1/lib
+  $ cp /usr/lib/libz.so.* nmag-0.2.0/lib
 
 
 Known issues
@@ -597,7 +597,7 @@ of the petsc configuration process: petsc seems unable to link against
 the lapack library. The problem was solved by adding an appropriate
 flag to the ``LDFLAGS`` environment variable::
 
-  $ cd nmag-0.1
+  $ cd nmag-0.2.0
   $ export LDFLAGS=-lgfortran
   $ make
 
