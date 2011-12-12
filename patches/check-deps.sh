@@ -19,8 +19,8 @@ PLEASE_CHECK_DEPS="A list of all the packages required in order\
  detect all of them. If you want to continue\
  anyway you can try 'make anyway'."
 
-$GREP_Q_I -i Ubuntu $ETC_ISSUE && DEBIAN_LIKE=yes
-$GREP_Q_I -q -i Debian $ETC_ISSUE && DEBIAN_LIKE=yes
+$GREP_Q_I -i Ubuntu $ETC_ISSUE >/dev/null 2>&1 && DEBIAN_LIKE=yes
+$GREP_Q_I -q -i Debian $ETC_ISSUE >/dev/null 2>&1 && DEBIAN_LIKE=yes
 
 if test "$DEBIAN_LIKE" = "yes"; then
   echo "Debian-like system: checking multiarch settings..."
