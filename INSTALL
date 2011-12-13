@@ -1,15 +1,15 @@
 
 
-==================================================================
-GUIDE FOR INSTALLING ``nsim``/``nmag`` FROM SOURCES (big tar ball)
-==================================================================
+======================================================================
+GUIDE FOR INSTALLING ``nsim``/``nmag`` all FROM SOURCES (big tar ball)
+======================================================================
 
-.. contents:: Table of Contents Installing Nmag from big tarball
+.. contents:: Table of Contents Installing Nmag all from big tarball
 
 Installation requirements
 -------------------------
 
-Building ``nmag`` will require approximatively 1.4 GB of harddisk space.
+Building ``nmag all`` will require approximatively 1.4 GB of harddisk space.
 After compilation and issuing ``make clean``, ~550 MB will be
 used. (The reason for this large footprint is that the ``nmag``
 archive tries to make very few assumptions on pre-installed software
@@ -417,6 +417,8 @@ on the following systems:
    - Ubuntu 11.04
 
    - Mac OS X 10.6 (Snow Leopard)
+
+   - Mac OS X 10.7 (Lion)
 
 
 
