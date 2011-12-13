@@ -42,7 +42,7 @@ On Ubuntu 11.10 you can install these requirements using::
 Download
 --------
 
-Download the tarball (with a name such as nmag-0.2.0-all.tar.gz) from http://nmag.soton.ac.uk. (try `this directory <http://nmag.soton.ac.uk/nmag/0.2/download/all>`__ to see available tar balls.
+Download the tarball (with a name such as nmag-0.2.0.tar.gz) from http://nmag.soton.ac.uk. (try `this directory <http://nmag.soton.ac.uk/nmag/0.2/download/all>`__ to see available tar balls.
 
 
 Installation
@@ -50,7 +50,7 @@ Installation
 
 Untar the archive::
 
-  $ tar xvzf nmag-0.2.0-all.tar.gz
+  $ tar xvzf nmag-0.2.0.tar.gz
 
 At this point you should know that, once the package has been compiled,
 you won't be able to move the nmag-0.2.0 directory to another location.
