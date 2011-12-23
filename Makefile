@@ -150,7 +150,8 @@ config.status: patches/nsimconfigure
 	touch .deps_findlib_untar
 
 .deps_findlib_configure: .deps_findlib_untar
-	export PATH=$(LOCAL_BIN):$$PATH && cd findlib && ./configure && cd ..
+	export PATH=$(LOCAL_BIN):$$PATH && cd findlib && \
+          ./configure -sitelib $(FINDLIB_DESTDIR)/site-lib && cd ..
 	touch .deps_findlib_configure
 
 .deps_findlib_build: .deps_findlib_configure
