@@ -35,7 +35,7 @@ The following software packages have to be available on the build system:
 
 On Ubuntu 11.10 you can install these requirements using::
 
-  apt-get install readline-dev g++ libblas-dev libreadline-dev \
+  apt-get install g++ libblas-dev libreadline-dev \
     make m4 gawk zlib1g-dev readline-common liblapack-dev
 
 
@@ -80,7 +80,7 @@ If this produces a prompt::
 
   >>>
 
-then ``nsim`` was compiled successfully from source. (However, the readline-dev libraries were missing, and thus the prompt is not an Interactive Python prompt.)
+then ``nsim`` was compiled successfully from source. (However, the libreadline-dev libraries were missing, and thus the prompt is not an Interactive Python prompt.)
 
 If::
 
@@ -90,7 +90,7 @@ produces a prompt like::
 
   In [1]: 
 
-then readline-dev has been found during the compilation, and the prompt resembles the IPython prompt.
+then libreadline-dev has been found during the compilation, and the prompt resembles the IPython prompt.
 
 (The interpreter can be left, as usual, by pressing Control+d,
 which will send an "End of File" command on its input stream.)
